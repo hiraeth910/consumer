@@ -1,0 +1,24 @@
+.success{
+    width: 60vw;
+  background-color: #e7f3f9;
+  position: absolute;
+  height: 100vh;
+  left: 20%;
+  right: 20%;
+  top: 0;
+  padding: 0px 20px;
+  box-sizing: border-box;
+  overflow-y: auto;
+  height: 100vh;
+  text-align: center;
+}
+.successimage{
+  height: 30vh;
+  margin-top: 20%;
+}
+@media (max-width: 768px) {
+.success{
+    width: 100vw;
+    left: 0;
+}
+}

@@ -2,9 +2,9 @@ import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
   cart: null,
-  isLoggedIn: false,
-  name: '',
-  token: null,
+  isLoggedIn: localStorage.getItem("isLoggedIn") === "true",
+  name: localStorage.getItem("name") || '',
+  token: localStorage.getItem("token") || null,
 };
 
 const appSlice = createSlice({
@@ -17,7 +17,7 @@ const appSlice = createSlice({
     setIsLoggedIn(state, action) {
       state.isLoggedIn = action.payload;
     },
-    setName(state, action) {
+    seTName(state, action) {
       state.name = action.payload;
     },
     setToken(state, action) {
@@ -26,8 +26,13 @@ const appSlice = createSlice({
     clearCart(state) {
       state.cart = null;
     },
+    initializeAuth(state) {
+      state.isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
+      state.name = localStorage.getItem("name") || '';
+      state.token = localStorage.getItem("token") || null;
+    },
   },
 });
 
-export const { setCart, setIsLoggedIn, setName, setToken, clearCart } = appSlice.actions;
+export const { setCart, setIsLoggedIn, setName, setToken, clearCart, initializeAuth } = appSlice.actions;
 export default appSlice.reducer;

@@ -1,0 +1,44 @@
+.contact-us-container {
+    width: 60vw;
+    left: 20%;
+    top:0;
+    position: absolute;
+    padding: 20px;
+    font-family: Arial, sans-serif;
+    color: #333;
+    line-height: 1.6;
+}
+
+.contact-us-container h1 {
+    font-size: 28px;
+    font-weight: bold;
+    margin-bottom: 15px;
+}
+
+.last-updated {
+    font-size: 14px;
+    color: #777;
+    margin-bottom: 20px;
+}
+
+.contact-info h2 {
+    font-size: 20px;
+    color: #444;
+    margin-top: 15px;
+    font-weight: bold;
+}
+
+.contact-info p {
+    font-size: 16px;
+    margin-left: 20px;
+    margin-bottom: 10px;
+}
+
+.contact-info a {
+    color: #007bff;
+    text-decoration: none;
+}
+
+.contact-info a:hover {
+    text-decoration: underline;
+}

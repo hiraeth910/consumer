@@ -187,7 +187,16 @@
   cursor: pointer;
   z-index: 1000; /* Ensures it stays on top */
 }
-
+.login-button {
+  background-color: #6447a8; /* Customize your preferred color */
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  margin-right: 15px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: medium;
+}
 
 /* Popup overlay for cart replacement confirmation */
 .popup-overlay {
@@ -227,7 +236,14 @@
   background-color: #c0392b;
   color: white;
 }
-
+.contact{
+  position:fixed;
+  bottom:20px;
+  left:21%;
+  background-color: #39ed9c;
+  padding: 5px;
+  border-radius: 10%;
+}
 /* Responsive adjustments */
 @media (max-width: 768px) {
   .main-container {
@@ -244,4 +260,9 @@
   .courses-grid {
     grid-template-columns: 1fr; /* Single column on mobile */
   }
+  .user-name{
+  font-size: 13px;
+}.contact{
+  left: 20px;
+}
 }

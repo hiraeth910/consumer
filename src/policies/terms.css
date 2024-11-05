@@ -1,0 +1,86 @@
+/* CSS for Terms and Conditions Page */
+
+.terms {
+   white-space: pre-wrap;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    position: absolute;
+    width: 60%;
+    left: 20%;
+    top:20px;
+    padding:10px 20px;
+    right: 20%;
+    overflow-y: auto;
+    line-height: 1.6;
+    background-color: #f9f9f9; /* Light background for readability */
+    border-radius: 8px;
+    height: 90%;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+
+}
+
+h1 {
+  font-size: 24px;
+  text-align: center;
+  margin-bottom: 20px;
+  color: #444;
+}
+
+h2 {
+  font-size: 18px;
+  margin: 15px 0 10px;
+  color: #666;
+}
+
+p, ul, ol {
+  font-size: 14px;
+  line-height: 1.6;
+  margin: 0 0 15px;
+}
+
+ul, ol {
+  padding-left: 20px;
+}
+
+ul li, ol li {
+  margin-bottom: 10px;
+}
+
+li {
+  list-style-type: decimal;
+}
+
+.section-heading {
+  font-weight: bold;
+  color: #333;
+  font-size: 16px;
+  margin-top: 15px;
+}
+
+.notice {
+  font-style: italic;
+  color: #888;
+}
+
+.link {
+  color: #0073e6;
+  text-decoration: none;
+}
+
+.link:hover {
+  text-decoration: underline;
+}
+
+.terms-section {
+  margin-bottom: 20px;
+  border-bottom: 1px solid #ddd;
+  padding-bottom: 20px;
+}
+@media (max-width: 768px) {
+.terms{
+    width: 100vw;
+    left:0;
+    top:0;
+    bottom:0;
+}
+}

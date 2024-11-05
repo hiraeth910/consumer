@@ -1,52 +1,42 @@
-import { useState } from 'react';
+import  { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import './Course.css';
 import { setCart } from '../../redux/appSlice';
-import logo from '../../assets/app_icon.png'
-import {  useNavigate } from 'react-router-dom';
+import logo from '../../assets/app_icon.png';
+import { useNavigate } from 'react-router-dom';
+
 const Courses = () => {
   const [showPopup, setShowPopup] = useState(false);
   const [selectedCourse, setSelectedCourse] = useState(null);
   const [showCourseModal, setShowCourseModal] = useState(false);
   const [showCartPopup, setShowCartPopup] = useState(false);
+
   const cart = useSelector((state) => state.app.cart);
+  const isLoggedIn = useSelector((state) => state.app.isLoggedIn);
+  const userName = useSelector((state) => state.app.name);
+  console.log(userName,"mg")
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const courses = [
-    {
-      id: 1,
-      title: 'Blender',
-      description: 'Learn the basics of Blender.',
-      image: 'https://www.blender.org/wp-content/uploads/2019/07/blender_vfx-1280x720.jpg?x12104',
-      author: 'John Doe',
-    },
-    {
-      id: 2,
-      title: 'Unreal Engine',
-      description: 'Learn the basics of Unreal Engine.',
-      image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSW-JsYLzvLhx2fWrSbYO4GuD8KYHkuwhB4lg&s',
-      author: 'Jane Smith',
-    },
-    {
-      id: 3,
-      title: 'After Effects',
-      description: 'Learn the basics of After Effects.',
-      image: 'https://cdn-dkepej.nitrocdn.com/xHPizjaXJNONuYnLnfsGSUCsMnIlzOEq/assets/images/optimized/rev-ef469ea/blog.frame.io/wp-content/uploads/2023/02/insider-tips-after-effects.jpg',
-      author: 'Mike Brown',
-    },
+    { id: 1, title: 'Blender', description: 'Learn the basics of Blender.', image: 'https://www.blender.org/wp-content/uploads/2019/07/blender_vfx-1280x720.jpg?x12104', author: 'John Doe' },
+    { id: 2, title: 'Unreal Engine', description: 'Learn the basics of Unreal Engine.', image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSW-JsYLzvLhx2fWrSbYO4GuD8KYHkuwhB4lg&s', author: 'Jane Smith' },
+    { id: 3, title: 'After Effects', description: 'Learn the basics of After Effects.', image: 'https://cdn-dkepej.nitrocdn.com/xHPizjaXJNONuYnLnfsGSUCsMnIlzOEq/assets/images/optimized/rev-ef469ea/blog.frame.io/wp-content/uploads/2023/02/insider-tips-after-effects.jpg', author: 'Mike Brown' },
   ];
-  const navigate = useNavigate();
+
   const handleAddToCart = (course) => {
     if (cart) {
       setSelectedCourse(course);
-      setShowCourseModal(!showCourseModal)
+      setShowCourseModal(!showCourseModal);
       setShowPopup(true);
     } else {
       dispatch(setCart(course));
       alert(`${course.title} added to cart`);
     }
   };
-
+  const handlecontactus=()=>{
+    navigate('/contactus')
+  }
   const confirmReplace = () => {
     dispatch(setCart(selectedCourse));
     setShowPopup(false);
@@ -65,7 +55,8 @@ const Courses = () => {
   const closeCourseModal = () => {
     setShowCourseModal(false);
   };
-   const goToCart = () => {
+
+  const goToCart = () => {
     if (cart) {
       navigate('/c');
     } else {
@@ -77,16 +68,26 @@ const Courses = () => {
     setShowCartPopup(false);
   };
 
+    const handleLogin = () => {
+      navigate('/login');
+    };
+
+
   return (
     <div className="main-container">
-      <header className="header">
+       <header className="header" style={{ backgroundColor: 'lightSkyBlue' }}>
         <div className="brand">
           <img src={logo} alt="Logo" className="brand-logo" />
           <h1 className="brand-name">Telemoni</h1>
         </div>
-        <div className="login-icon">🔒</div>
+        <div className="login-icon">
+          {isLoggedIn ? (
+            <span className="user-name">{userName}</span>
+          ) : (
+            <button className="login-button" onClick={handleLogin}>Login</button>
+          )}
+        </div>
       </header>
-
       <div className="courses-grid">
         {courses.map((course) => (
           <div key={course.id} className="course-card" onClick={() => openCourseModal(course)}>
@@ -142,7 +143,7 @@ const Courses = () => {
           </div>
         </div>
       )}
-
+      <div className='contact' onClick={handlecontactus}>contactus</div>
       <div className="cart-icon" onClick={goToCart}>🛒</div>
     </div>
   );

@@ -9,6 +9,7 @@
   padding: 0px 20px;
   box-sizing: border-box;
   overflow-y: auto;
+  height: 100vh;
 }
 
 .cart-container {
@@ -27,6 +28,7 @@
   border-radius: 8px;
   margin-bottom: 20px;
   background-color: rgb(245, 243, 241);
+  height: 50vh;
 }
 
 .cart-title {
@@ -53,6 +55,7 @@
   color: #666;
   cursor: pointer;
   margin-top: 20px;
+ 
 }
 .cart-image{
   height: 23vh;
@@ -104,13 +107,26 @@
     left: 0;
   }
   .cart-content{
-    height: 40vh;
+    height: 45vh;
   }
-  .cartimage{
-    height: 30%;
+  .cart-image{
+    height: 35%;
+    width: 100%;
+    object-fit: contain;
   }
+  
   .cart-title {
   font-size: 1.3em;
+}
+.cart-title {
+  font-size: 0.7.em;
+  color: #333;
+}
+
+.cart-description,
+.cart-author {
+  color: #777;
+  margin: 2px 0;
 }
 
 }
