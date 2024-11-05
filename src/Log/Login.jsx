@@ -161,6 +161,7 @@ function LoginPage() {
                         ) : (
                             otpVisible ? (
                                 <div>
+                                    <p>Please login to proceed</p>
                                     <PhoneInput
                                         country={'in'}
                                         value={phone}
