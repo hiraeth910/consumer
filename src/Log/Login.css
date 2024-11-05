@@ -1,0 +1,92 @@
+.login {
+    width: 60vw;
+    background-color: #e7f3f9;
+    position: absolute;
+    height: 100vh;
+    left: 20%;
+    right: 20%;
+    top: 0;
+    padding: 20px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    overflow-y: auto;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    padding: 10px 0;
+}
+
+.brand {
+    display: flex;
+    align-items: center;
+}
+
+.brand-logo {
+    width: 70px;
+    margin-right: 10px;
+}
+
+.brand-name {
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.login-icon {
+    font-size: 24px;
+}
+
+.card {
+    background-color: #fff;
+    padding: 30px ;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    width:90%;
+    min-width: 450px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.phone-input {
+  text-align:  center;    
+}
+.phone-input .form-control {
+    color: #000; /* Set to black or any color you prefer */
+    background-color: #fff; /* Optional: set a different background color if needed */
+}
+
+/* Placeholder color if needed */
+.phone-input .form-control::placeholder {
+    color: #888; /* Set the placeholder color */
+}
+.contents{
+    margin:auto;
+}
+@media (max-width: 768px) {
+    .login{
+        width: 100%;
+        left: 0;
+    }
+    .card {
+    border-radius: 8px;
+    width:90%;
+    min-width: 450px;
+    max-width: 80%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.phone-input {
+  text-align:  center;    
+}
+.contents{
+    margin:40% 10px;
+}
+}

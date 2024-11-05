@@ -1,0 +1,247 @@
+.main-container {
+  width: 60vw;
+  background-color: #e7f3f9;
+  position: absolute;
+  height: 100vh;
+  left: 20%;
+  right: 20%;
+  top: 0;
+  padding: 0px 20px;
+  box-sizing: border-box;
+  overflow-y: auto; /* Enables internal scrolling */
+}
+
+/* Responsive adjustment */
+@media (max-width: 768px) {
+  .main-container {
+    width: 100vw;  /* Full width on smaller screens */
+    left: 0;
+    right: 0;
+    padding: 0 15px; /* Smaller padding on mobile */
+  }
+}
+
+
+/* Header styling */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #5ecdf8;
+  padding: 10px 0;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+}
+
+.brand-logo {
+  width: 70px;
+  height: 70px;
+  margin-right: 10px;
+}
+
+.brand-name {
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.login-icon {
+  font-size: 24px;
+  cursor: pointer;
+}
+
+/* Courses grid within the container */
+.courses-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  padding: 10px;
+}
+
+.course-card {
+  background-color: #ffffff;
+  border-radius: 15px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 10px;
+  display: flex;
+  height: 35vh;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.imagecontainer {
+  width: 100%;
+  height: 50%; /* Sets the image container to 70% of the parent height */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.course-image {
+  width: 100%;
+  height: 100%;
+  border-radius: 10px;
+  object-fit: fill; /* Ensures the image fits within its container */
+}
+
+.course-content {
+  margin-top: 5px;
+}
+
+.course-title {
+  font-size: 14px;
+  color: #2c3e50;
+}
+
+.course-description {
+  color: #7f8c8d;
+  margin: 10px 0;
+}
+.modal-overlay, .popup-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal-content, .popup-content {
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  width: 80%;
+  max-width: 500px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  position: relative;
+  z-index: 1;
+}
+
+.modal-image {
+  width: 100%;
+  height: auto;
+  border-radius: 4px;
+}
+
+.modal-title {
+  font-size: 1.5em;
+  margin-top: 10px;
+}
+
+.modal-author, .modal-description {
+  font-size: 1em;
+  margin-top: 10px;
+}
+
+.modal-close-btn, .popup-btn {
+  margin-top: 15px;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.popup-btn.confirm {
+  background-color: #4CAF50;
+  color: white;
+  margin-right: 10px;
+}
+
+.popup-btn.cancel, .modal-close-btn {
+  background-color: #f44336;
+  color: white;
+}
+
+
+.add-to-cart-btn {
+  background-color: #ff8b5d;
+  color: white;
+  border: none;
+  padding: 8px;
+  border-radius: 10px;
+  cursor: pointer;
+  width: 100%;
+}
+
+.add-to-cart-btn:hover {
+  background-color: #ff4d17;
+}
+
+/* Cart icon inside main-container */
+.cart-icon {
+  font-size: 20px;
+  background-color: #061621;
+  color: white;
+  padding: 15px;
+  border-radius: 50%;
+  position: fixed; /* Changed from absolute to fixed */
+  bottom: 20px;
+  right: 21%;
+  cursor: pointer;
+  z-index: 1000; /* Ensures it stays on top */
+}
+
+
+/* Popup overlay for cart replacement confirmation */
+.popup-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.popup-content {
+  background-color: white;
+  padding: 20px;
+  border-radius: 8px;
+  text-align: center;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.popup-btn {
+  margin: 10px;
+  padding: 8px 15px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.popup-btn.confirm {
+  background-color: #27ae60;
+  color: white;
+}
+
+.popup-btn.cancel {
+  background-color: #c0392b;
+  color: white;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .main-container {
+    max-width: 100vw;
+    padding:0 5px;
+    margin: 0;
+  }
+  .cart-icon {
+    right: 15px; /* Fixed position on mobile screens */
+  }
+  .course-card{
+    height: 40vh;
+  }
+  .courses-grid {
+    grid-template-columns: 1fr; /* Single column on mobile */
+  }
+}
