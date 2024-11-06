@@ -10,6 +10,7 @@ import auth from '../firebase/setup.js';
 import { useDispatch, useSelector } from 'react-redux';
 import { setIsLoggedIn, setToken, setName } from '../redux/appSlice.js';
 import { useNavigate } from 'react-router-dom';
+import { getUser } from '../utils/getapi.js';
 
 function LoginPage() {
     const navigate = useNavigate();
@@ -23,7 +24,7 @@ function LoginPage() {
     const [token, setToken] = useState('');
     const [name, setName] = useState('');
     const [isNew, setIsNew] = useState(false);
-
+    const [pageLoding, setPageLoading] = useState(false);
     const [loading, setLoading] = useState(false);
 
     // Function to initialize reCAPTCHA
@@ -52,14 +53,7 @@ function LoginPage() {
     };
 
     const handleLogin = () => {
-        localStorage.setItem('name', name);
-        localStorage.setItem('isLoggedIn', true);
-        localStorage.setItem('token', token);
-
-        dispatch(setName(name));
-        dispatch(setIsLoggedIn(true));
-        dispatch(setToken(token));
-        navigateToHomeOrCart();
+        fetchToken(phone,name);
     };
 
     const sendOtp = async () => {
@@ -92,19 +86,13 @@ function LoginPage() {
                 const result = await confirmationResult.confirm(otp);
                 const user = result.user;
 
-                const idToken = await user.getIdToken();
-                setToken(idToken);
-
                 const uid = user.uid;
                 const isNewUser = user.metadata.creationTime === user.metadata.lastSignInTime;
 
                 if (isNewUser) {
                     setIsNew(true);
-                    localStorage.setItem('isNew', true);
                 } else {
-                    const ame = uid.slice(-5);
-                    setName(ame);
-                    handleLogin();
+                    fetchToken(phone,''); //fetch token
                 }
             } else {
                 console.error('No confirmation result to verify OTP.');
@@ -114,6 +102,24 @@ function LoginPage() {
             alert('Invalid OTP. Please try again.');
         } finally {
             setLoading(false);
+        }
+    };
+
+    const fetchToken = async (p, n) => {
+        setPageLoading(true);
+        try {
+            const response = await getUser(p, n);
+            if (response !== false){
+                const token = response.data.token;
+                const name = response.data.name;
+                localStorage.setItem('token', token);
+                localStorage.setItem('name', name);
+                setName(name);
+                setIsLoggedIn(true);
+                navigateToHomeOrCart();
+            }
+        }catch (error) {
+            console.error('Error fetching token:', error);
         }
     };
 
@@ -140,7 +146,8 @@ function LoginPage() {
       };
 
     return (
-        <div className="login">
+            pageLoding? (<p>Loading</p>):(
+            <div className="login">
             <header className="header">
                 <div className="brand">
                     <img src={logo} alt="Logo" className="brand-logo" />
@@ -223,6 +230,7 @@ function LoginPage() {
                 <span className="footer-link" onClick={handleContactUs}>Contact Us</span>
             </footer>
         </div>
+            )
     );
 }
 
