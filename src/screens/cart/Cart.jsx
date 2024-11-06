@@ -14,7 +14,6 @@ const CartPage = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [name,setName] = useState('')
-  const [isloggedin,setIsloggedin] = useState();
   const handleRemove = () => {
     if (window.confirm('Are you sure you want to remove this item from the cart?')) {
       dispatch(clearCart());
@@ -25,11 +24,8 @@ const CartPage = () => {
     navigate('/login');
   };
   const handlePay = async () => {
-    if (!isloggedin) {
-    navigate('/login'); // or navigate to the actual payment page
-  } else {
-    // Attempt to initiate the payment
-    try {
+    if (isLoggedIn) {
+      try {
       const response = await axios.post("https://server.telemoni.in/api/payment/pay", {
         amount: 10000, // example: 100.00 INR
         userId: "USER_ID", // Replace with actual user ID
@@ -46,6 +42,10 @@ const CartPage = () => {
       console.error("Error in payment:", error);
       alert("Error initiating payment");
     }
+    } else {
+    navigate('/login'); // or navigate to the actual payment page
+    // Attempt to initiate the payment
+    
   }
 };
 const handleRefunds=()=>{
