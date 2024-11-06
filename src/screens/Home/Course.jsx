@@ -14,14 +14,13 @@ const Courses = () => {
   const cart = useSelector((state) => state.app.cart);
   const isLoggedIn = useSelector((state) => state.app.isLoggedIn);
   const userName = useSelector((state) => state.app.name);
-  console.log(userName,"mg")
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const courses = [
-    { id: 1, title: 'Blender', description: 'Learn the basics of Blender.', image: 'https://www.blender.org/wp-content/uploads/2019/07/blender_vfx-1280x720.jpg?x12104', author: 'John Doe' },
-    { id: 2, title: 'Unreal Engine', description: 'Learn the basics of Unreal Engine.', image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSW-JsYLzvLhx2fWrSbYO4GuD8KYHkuwhB4lg&s', author: 'Jane Smith' },
-    { id: 3, title: 'After Effects', description: 'Learn the basics of After Effects.', image: 'https://cdn-dkepej.nitrocdn.com/xHPizjaXJNONuYnLnfsGSUCsMnIlzOEq/assets/images/optimized/rev-ef469ea/blog.frame.io/wp-content/uploads/2023/02/insider-tips-after-effects.jpg', author: 'Mike Brown' },
+    { id: 1, title: 'Blender', description: 'Learn the basics of Blender.', image: 'https://www.blender.org/wp-content/uploads/2019/07/blender_vfx-1280x720.jpg?x12104', author: 'John Doe' ,price:600},
+    { id: 2, title: 'Unreal Engine', description: 'Learn the basics of Unreal Engine.', image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSW-JsYLzvLhx2fWrSbYO4GuD8KYHkuwhB4lg&s', author: 'Jane Smith',price:400 },
+    { id: 3, title: 'After Effects', description: 'Learn the basics of After Effects.', image: 'https://cdn-dkepej.nitrocdn.com/xHPizjaXJNONuYnLnfsGSUCsMnIlzOEq/assets/images/optimized/rev-ef469ea/blog.frame.io/wp-content/uploads/2023/02/insider-tips-after-effects.jpg', author: 'Mike Brown',price:1000 },
   ];
 
   const handleAddToCart = (course) => {
@@ -95,7 +94,11 @@ const Courses = () => {
               <img src={course.image} alt={course.title} className="course-image" />
             </div>
             <div className="course-content">
-              <h2 className="course-title">{course.title}</h2>
+             <div className="course-info" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+    <div className="course-title">{course.title}</div>
+    <div className="course-price">₹{course.price}</div>
+</div>
+
               <p className="course-description">{course.description}</p>
               <button className="add-to-cart-btn" onClick={(e) => {
                 e.stopPropagation(); // Prevents modal from opening
@@ -122,7 +125,10 @@ const Courses = () => {
         <div className="modal-overlay" onClick={closeCourseModal}>
           <div className="modal-content" onClick={(e) => e.stopPropagation()}>
             <img src={selectedCourse.image} alt={selectedCourse.title} className="modal-image" />
-            <h2 className="modal-title">{selectedCourse.title}</h2>
+<div className="course-info" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+    <div className="course-title">{selectedCourse.title}</div>
+    <div className="course-price">₹{selectedCourse.price}</div>
+</div>
             <p className="modal-author">Author: {selectedCourse.author}</p>
             <p className="modal-description">
               Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam scelerisque aliquet sapien, ut egestas urna cursus a.

@@ -25,7 +25,6 @@ const CartPage = () => {
     navigate('/login');
   };
   const handlePay = async () => {
-    console.log(isLoggedIn)
     if (!isloggedin) {
     navigate('/login'); // or navigate to the actual payment page
   } else {
@@ -85,7 +84,7 @@ navigate('/terms&conditions')  };
             </button>
           </div>
           <button className="pay-btn" onClick={handlePay}>
-              Pay with PhonePe
+              Pay {cart.price}
             </button>
           <div style={{display:'flex',justifyContent:'space-evenly'}}>
             <span className="terms-link" onClick={handleTerms}>
