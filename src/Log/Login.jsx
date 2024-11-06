@@ -127,6 +127,18 @@ function LoginPage() {
         }
     };
 
+    const handleTerms = () => {
+        navigate('/terms&conditions');
+      };
+    
+      const handlePrivacyPolicy = () => {
+        navigate('/privacy-policy');
+      };
+    
+      const handleContactUs = () => {
+        navigate('/contactus')
+      };
+
     return (
         <div className="login">
             <header className="header">
@@ -205,6 +217,11 @@ function LoginPage() {
                     </div>
                 </div>
             </div>
+            <footer className="footer">
+                <span className="footer-link" onClick={handleTerms}>Terms and Conditions</span>
+                <span className="footer-link" onClick={handlePrivacyPolicy}>Privacy Policy</span>
+                <span className="footer-link" onClick={handleContactUs}>Contact Us</span>
+            </footer>
         </div>
     );
 }
