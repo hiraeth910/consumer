@@ -5,7 +5,6 @@ import './cart.css';
 import { clearCart } from '../../redux/appSlice';
 import logo from '../../assets/app_icon.png';
 import axios from 'axios';
-import { useEffect, useState } from 'react';
 
 const CartPage = () => {
   const cart = useSelector((state) => state.app.cart);
@@ -13,48 +12,54 @@ const CartPage = () => {
   const userName = useSelector((state) => state.app.name);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const [name,setName] = useState('')
+
   const handleRemove = () => {
     if (window.confirm('Are you sure you want to remove this item from the cart?')) {
       dispatch(clearCart());
       navigate(-1); // Navigate back to previous page
     }
   };
-    const handleLogin = () => {
+
+  const handleLogin = () => {
     navigate('/login');
   };
- const handlePay = async () => {
-  if (isLoggedIn) {
-    try {
-      const response = await axios.post("https://server.telemoni.in/api/payment/pay", {
-        amount: 10000, // example: 100.00 INR
-        userId: "USER_ID", // Replace with actual user ID
-        userPhone: "USER_PHONE" // Replace with actual user phone
-      });
 
-      // Check if response contains a URL for the payment page
-      if (response.data && response.data.paymentUrl) {
-        // Redirect to the payment URL
-window.open(response.data.paymentUrl, '_blank');      } else if (response.data.success) {
-        alert("Transaction initiated successfully");
-      } else {
-        alert("Transaction failed");
+  const handlePay = async () => {
+    if (isLoggedIn) {
+      try {
+        const response = await axios.post("https://server.telemoni.in/api/payment/pay", {
+          amount: 10000, // example: 100.00 INR
+          userId: "USER_ID", // Replace with actual user ID
+          userPhone: "USER_PHONE" // Replace with actual user phone
+        });
+
+        if (response.data && response.data.paymentUrl) {
+          window.location.href = response.data.paymentUrl;
+        } else if (response.data.success) {
+          alert("Transaction initiated successfully");
+        } else {
+          alert("Transaction failed");
+        }
+      } catch (error) {
+        console.error("Error in payment:", error);
+        alert("Error initiating payment");
       }
-    } catch (error) {
-      console.error("Error in payment:", error);
-      alert("Error initiating payment");
+    } else {
+      navigate('/login'); 
     }
-  } else {
-    navigate('/login'); 
-  }
-};
-
-const handleRefunds=()=>{
-  navigate('/Refund-policy')
-}
+  };
 
   const handleTerms = () => {
-navigate('/terms&conditions')  };
+    navigate('/terms&conditions');
+  };
+
+  const handlePrivacyPolicy = () => {
+    navigate('/privacy-policy');
+  };
+
+  const handleContactUs = () => {
+    navigate('/contactus')
+  };
 
   return (
     <div className="cart-page">
@@ -75,28 +80,28 @@ navigate('/terms&conditions')  };
         {cart ? (
           <div>
             <h3>Item in your cart</h3>
-          <div className="cart-content">
-            <img src={cart.image} className='cart-image' />
-            <h3 className="cart-title">{cart.title}</h3>
-            <p className="cart-description">{cart.description}</p>
-            <p className="cart-author">By {cart.author}</p>
-            <button className="remove-btn" onClick={handleRemove}>
-              Remove
-            </button>
-          </div>
-          <button className="pay-btn" onClick={handlePay}>
+            <div className="cart-content">
+              <img src={cart.image} className="cart-image" alt="Cart Item" />
+              <h3 className="cart-title">{cart.title}</h3>
+              <p className="cart-description">{cart.description}</p>
+              <p className="cart-author">By {cart.author}</p>
+              <button className="remove-btn" onClick={handleRemove}>
+                Remove
+              </button>
+            </div>
+            <button className="pay-btn" onClick={handlePay}>
               Pay {cart.price}
             </button>
-          <div style={{display:'flex',justifyContent:'space-evenly'}}>
-            <span className="terms-link" onClick={handleTerms}>
-              * Terms and conditions
-            </span>
-            <span className="terms-link" onClick={handleRefunds}>* Refund policy</span></div>
-            </div>
+          </div>
         ) : (
           <div>Your cart is empty</div>
         )}
       </div>
+      <footer className="footer">
+        <span className="footer-link" onClick={handleTerms}>Terms and Conditions</span>
+        <span className="footer-link" onClick={handlePrivacyPolicy}>Privacy Policy</span>
+        <span className="footer-link" onClick={handleContactUs}>Contact Us</span>
+      </footer>
     </div>
   );
 };

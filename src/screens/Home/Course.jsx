@@ -1,4 +1,4 @@
-import  { useState } from 'react';
+import { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import './Course.css';
 import { setCart } from '../../redux/appSlice';
@@ -18,9 +18,11 @@ const Courses = () => {
   const navigate = useNavigate();
 
   const courses = [
-    { id: 1, title: 'Blender', description: 'Learn the basics of Blender.', image: 'https://www.blender.org/wp-content/uploads/2019/07/blender_vfx-1280x720.jpg?x12104', author: 'John Doe' ,price:600},
-    { id: 2, title: 'Unreal Engine', description: 'Learn the basics of Unreal Engine.', image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSW-JsYLzvLhx2fWrSbYO4GuD8KYHkuwhB4lg&s', author: 'Jane Smith',price:400 },
-    { id: 3, title: 'After Effects', description: 'Learn the basics of After Effects.', image: 'https://cdn-dkepej.nitrocdn.com/xHPizjaXJNONuYnLnfsGSUCsMnIlzOEq/assets/images/optimized/rev-ef469ea/blog.frame.io/wp-content/uploads/2023/02/insider-tips-after-effects.jpg', author: 'Mike Brown',price:1000 },
+    { id: 1, title: 'Blender', description: 'Learn the basics of Blender.', image: 'https://www.blender.org/wp-content/uploads/2019/07/blender_vfx-1280x720.jpg?x12104', author: 'John Doe', price: 600 },
+    { id: 2, title: 'Unreal Engine', description: 'Learn the basics of Unreal Engine.', image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSW-JsYLzvLhx2fWrSbYO4GuD8KYHkuwhB4lg&s', author: 'Jane Smith', price: 400 },
+    { id: 3, title: 'After Effects', description: 'Learn the basics of After Effects.', image: 'https://cdn-dkepej.nitrocdn.com/xHPizjaXJNONuYnLnfsGSUCsMnIlzOEq/assets/images/optimized/rev-ef469ea/blog.frame.io/wp-content/uploads/2023/02/insider-tips-after-effects.jpg', author: 'Mike Brown', price: 1000 },
+    { id: 4, title: 'Adobe Premiere Pro', description: 'Learn Premiere Pro Video Editing.', image: 'https://img-c.udemycdn.com/course/750x422/4060610_17f8.jpg', author: 'Mike Brown', price: 449 },
+  
   ];
 
   const handleAddToCart = (course) => {
@@ -33,9 +35,17 @@ const Courses = () => {
       alert(`${course.title} added to cart`);
     }
   };
-  const handlecontactus=()=>{
+  const handleTerms = () => {
+    navigate('/terms&conditions');
+  };
+
+  const handlePrivacyPolicy = () => {
+    navigate('/privacy-policy');
+  };
+
+  const handleContactUs = () => {
     navigate('/contactus')
-  }
+  };
   const confirmReplace = () => {
     dispatch(setCart(selectedCourse));
     setShowPopup(false);
@@ -67,14 +77,14 @@ const Courses = () => {
     setShowCartPopup(false);
   };
 
-    const handleLogin = () => {
-      navigate('/login');
-    };
+  const handleLogin = () => {
+    navigate('/login');
+  };
 
 
   return (
     <div className="main-container">
-       <header className="header" style={{ backgroundColor: 'lightSkyBlue' }}>
+      <header className="header" style={{ backgroundColor: 'lightSkyBlue' }}>
         <div className="brand">
           <img src={logo} alt="Logo" className="brand-logo" />
           <h1 className="brand-name">Telemoni</h1>
@@ -87,17 +97,17 @@ const Courses = () => {
           )}
         </div>
       </header>
-      <div className="courses-grid">
+      <div className="courses-grid" >
         {courses.map((course) => (
           <div key={course.id} className="course-card" onClick={() => openCourseModal(course)}>
             <div className="imagecontainer">
               <img src={course.image} alt={course.title} className="course-image" />
             </div>
             <div className="course-content">
-             <div className="course-info" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-    <div className="course-title">{course.title}</div>
-    <div className="course-price">₹{course.price}</div>
-</div>
+              <div className="course-info" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                <div className="course-title">{course.title}</div>
+                <div className="course-price">₹{course.price}</div>
+              </div>
 
               <p className="course-description">{course.description}</p>
               <button className="add-to-cart-btn" onClick={(e) => {
@@ -110,6 +120,11 @@ const Courses = () => {
           </div>
         ))}
       </div>
+      <footer className="footer">
+        <span className="footer-link" onClick={handleTerms}>Terms and Conditions</span>
+        <span className="footer-link" onClick={handlePrivacyPolicy}>Privacy Policy</span>
+        <span className="footer-link" onClick={handleContactUs}>Contact Us</span>
+      </footer>
 
       {showPopup && (
         <div className="popup-overlay">
@@ -125,10 +140,10 @@ const Courses = () => {
         <div className="modal-overlay" onClick={closeCourseModal}>
           <div className="modal-content" onClick={(e) => e.stopPropagation()}>
             <img src={selectedCourse.image} alt={selectedCourse.title} className="modal-image" />
-<div className="course-info" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-    <div className="course-title">{selectedCourse.title}</div>
-    <div className="course-price">₹{selectedCourse.price}</div>
-</div>
+            <div className="course-info" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+              <div className="course-title">{selectedCourse.title}</div>
+              <div className="course-price">₹{selectedCourse.price}</div>
+            </div>
             <p className="modal-author">Author: {selectedCourse.author}</p>
             <p className="modal-description">
               Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam scelerisque aliquet sapien, ut egestas urna cursus a.
@@ -149,8 +164,10 @@ const Courses = () => {
           </div>
         </div>
       )}
-      <div className='contact' onClick={handlecontactus}>contactus</div>
+
       <div className="cart-icon" onClick={goToCart}>🛒</div>
+
+      
     </div>
   );
 };
