@@ -35,8 +35,7 @@ const CartPage = () => {
       // Check if response contains a URL for the payment page
       if (response.data && response.data.paymentUrl) {
         // Redirect to the payment URL
-        window.location.href = response.data.paymentUrl;
-      } else if (response.data.success) {
+window.open(response.data.paymentUrl, '_blank');      } else if (response.data.success) {
         alert("Transaction initiated successfully");
       } else {
         alert("Transaction failed");
