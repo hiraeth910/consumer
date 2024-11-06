@@ -23,18 +23,21 @@ const CartPage = () => {
     const handleLogin = () => {
     navigate('/login');
   };
-  const handlePay = async () => {
-    if (isLoggedIn) {
-      try {
+ const handlePay = async () => {
+  if (isLoggedIn) {
+    try {
       const response = await axios.post("https://server.telemoni.in/api/payment/pay", {
         amount: 10000, // example: 100.00 INR
         userId: "USER_ID", // Replace with actual user ID
         userPhone: "USER_PHONE" // Replace with actual user phone
       });
 
-      if (response.data.success) {
+      // Check if response contains a URL for the payment page
+      if (response.data && response.data.paymentUrl) {
+        // Redirect to the payment URL
+        window.location.href = response.data.paymentUrl;
+      } else if (response.data.success) {
         alert("Transaction initiated successfully");
-        // Optionally, navigate to the payment URL or handle further steps as needed
       } else {
         alert("Transaction failed");
       }
@@ -42,12 +45,11 @@ const CartPage = () => {
       console.error("Error in payment:", error);
       alert("Error initiating payment");
     }
-    } else {
-    navigate('/login'); // or navigate to the actual payment page
-    // Attempt to initiate the payment
-    
+  } else {
+    navigate('/login'); 
   }
 };
+
 const handleRefunds=()=>{
   navigate('/Refund-policy')
 }
