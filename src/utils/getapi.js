@@ -5,7 +5,7 @@ export const getUser=async(phone,name)=>{
     try{
       const response =await apiClient.post(endpoints.getUserdetails,{phone:phone,name:name})
       if (response.status===200 || response.status===201){
-        return response.data
+        return response
       }else{
         return false
       }

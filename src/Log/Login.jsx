@@ -8,9 +8,9 @@ import './Login.css';
 import { RecaptchaVerifier, signInWithPhoneNumber } from 'firebase/auth';
 import auth from '../firebase/setup.js';
 import { useDispatch, useSelector } from 'react-redux';
-import { setIsLoggedIn, setToken, setName } from '../redux/appSlice.js';
 import { useNavigate } from 'react-router-dom';
 import { getUser } from '../utils/getapi.js';
+import {seTName,setToken,setIsLoggedIn} from '../redux/appSlice.js'
 
 function LoginPage() {
     const navigate = useNavigate();
@@ -21,7 +21,6 @@ function LoginPage() {
     const [phone, setPhone] = useState('');
     const [otp, setOtp] = useState('');
     const [confirmationResult, setConfirmationResult] = useState(null);
-    const [token, setToken] = useState('');
     const [name, setName] = useState('');
     const [isNew, setIsNew] = useState(false);
     const [pageLoding, setPageLoading] = useState(false);
@@ -108,21 +107,34 @@ function LoginPage() {
     const fetchToken = async (p, n) => {
         setPageLoading(true);
         try {
-            const response = await getUser(p, n);
-            if (response !== false){
-                const token = response.data.token;
-                const name = response.data.name;
+            const response = await getUser(p.slice(2), n);
+    
+            // Log the full response for debugging
+            console.log('API Response:', response);
+    
+            // Check if response and response.data are defined
+            if (response && response.data) {
+                const { token, name } = response.data;
+    
+                // Save token and name to local storage
                 localStorage.setItem('token', token);
                 localStorage.setItem('name', name);
-                setName(name);
-                setIsLoggedIn(true);
-                setPageLoading(false);
+                dispatch(setToken(token));
+                dispatch(seTName(name));
+                dispatch(setIsLoggedIn(true));
                 navigateToHomeOrCart();
+            } else {
+                console.error('Unexpected API response structure:', response);
+                alert('Failed to retrieve login information. Please try again.');
             }
-        }catch (error) {
+        } catch (error) {
             console.error('Error fetching token:', error);
+            alert('Error occurred while logging in. Please try again later.');
+        } finally {
+            setPageLoading(false);
         }
     };
+    
 
     const handleWrongNumber = () => {
         const confirmChange = window.confirm('Want to change the number?');
