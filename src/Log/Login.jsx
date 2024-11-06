@@ -116,6 +116,7 @@ function LoginPage() {
                 localStorage.setItem('name', name);
                 setName(name);
                 setIsLoggedIn(true);
+                setPageLoading(false);
                 navigateToHomeOrCart();
             }
         }catch (error) {
