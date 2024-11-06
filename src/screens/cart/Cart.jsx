@@ -31,7 +31,7 @@ const CartPage = () => {
   } else {
     // Attempt to initiate the payment
     try {
-      const response = await axios.post("https://13.201.168.52/api/payment/pay", {
+      const response = await axios.post("https://server.telemoni.in/api/payment/pay", {
         amount: 10000, // example: 100.00 INR
         userId: "USER_ID", // Replace with actual user ID
         userPhone: "USER_PHONE" // Replace with actual user phone
