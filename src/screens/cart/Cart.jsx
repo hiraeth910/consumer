@@ -33,9 +33,11 @@ const CartPage = () => {
           userPhone: "USER_PHONE" // Replace with actual user phone
         });
 
-        if (response.data && response.data.paymentUrl) {
-          window.location.href = response.data.paymentUrl;
-        } else if (response.data.success) {
+       if (response.data && response.data.url) {
+    // Open the URL in a new tab or window
+    window.open(response.data.url, "_blank");
+}
+ else if (response.data.success) {
           alert("Transaction initiated successfully");
         } else {
           alert("Transaction failed");
