@@ -6,7 +6,7 @@ const PrivacyPolicy = () => {
      
       <h2>Introduction</h2>
       <p>
-        This Privacy Policy describes how <strong>VIJAY RAVI</strong> (referred to as <strong>CHETI, we, our, us</strong>) and its affiliates collect, use, share, protect, or otherwise process your information/personal data through our website <a href="https://www.telemoni.in" target="_blank" rel="noopener noreferrer">www.telemoni.in</a> (hereinafter referred to as <strong>Platform</strong>). You may browse certain sections of the Platform without registering with us. We do not offer any product/service under this Platform outside India, and your personal data will primarily be stored and processed in India.
+        This Privacy Policy describes how <strong>CHETI VIJAY RAVI</strong> (referred to as <strong>CHETI, we, our, us</strong>) and its affiliates collect, use, share, protect, or otherwise process your information/personal data through our website <a href="https://www.telemoni.in" target="_blank" rel="noopener noreferrer">www.telemoni.in</a> (hereinafter referred to as <strong>Platform</strong>). You may browse certain sections of the Platform without registering with us. We do not offer any product/service under this Platform outside India, and your personal data will primarily be stored and processed in India.
       </p>
       <p>
         By visiting this Platform, providing your information, or availing any product/service offered on the Platform, you agree to be bound by the terms of this Privacy Policy, Terms of Use, and applicable service/product terms and conditions, governed by the laws of India. If you do not agree, please do not use or access our Platform.
