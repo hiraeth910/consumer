@@ -34,5 +34,5 @@ const appSlice = createSlice({
   },
 });
 
-export const { setCart, setIsLoggedIn, setName, setToken, clearCart, initializeAuth } = appSlice.actions;
+export const { setCart, setIsLoggedIn, seTName, setToken, clearCart, initializeAuth } = appSlice.actions;
 export default appSlice.reducer;
