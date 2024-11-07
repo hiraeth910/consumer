@@ -93,7 +93,10 @@ const CartPage = () => {
             </div>
             <button className="pay-btn" onClick={handlePay}>
               Pay {cart.price}
-            </button>
+            </button><div >
+            
+            <span className="terms-link" onClick={navigate('/Refund-policy')}>* Refund policy</span></div>
+            </div>
           </div>
         ) : (
           <div>Your cart is empty</div>
