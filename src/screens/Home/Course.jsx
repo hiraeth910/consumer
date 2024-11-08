@@ -18,10 +18,11 @@ const Courses = () => {
   const navigate = useNavigate();
 
   const courses = [
-    { id: 1, title: 'Blender', description: 'Learn the basics of Blender.', image: 'https://www.blender.org/wp-content/uploads/2019/07/blender_vfx-1280x720.jpg?x12104', author: 'John Doe', price: 600 },
-    { id: 2, title: 'Unreal Engine', description: 'Learn the basics of Unreal Engine.', image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSW-JsYLzvLhx2fWrSbYO4GuD8KYHkuwhB4lg&s', author: 'Jane Smith', price: 400 },
-    { id: 3, title: 'After Effects', description: 'Learn the basics of After Effects.', image: 'https://cdn-dkepej.nitrocdn.com/xHPizjaXJNONuYnLnfsGSUCsMnIlzOEq/assets/images/optimized/rev-ef469ea/blog.frame.io/wp-content/uploads/2023/02/insider-tips-after-effects.jpg', author: 'Mike Brown', price: 1000 },
-    { id: 4, title: 'Adobe Premiere Pro', description: 'Learn Premiere Pro Video Editing.', image: 'https://img-c.udemycdn.com/course/750x422/4060610_17f8.jpg', author: 'Mike Brown', price: 449 },
+    { id: 1, title: 'Blender', description: 'Learn the basics of Blender.', image: 'https://www.blender.org/wp-content/uploads/2019/07/blender_vfx-1280x720.jpg?x12104', author: 'John Doe', price: 600, crse:"Versatile for artists and developers looking to create everything from animations to visual effects and interactive experiences.
+      " },
+    { id: 2, title: 'Unreal Engine', description: 'Learn the basics of Unreal Engine.', image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSW-JsYLzvLhx2fWrSbYO4GuD8KYHkuwhB4lg&s', author: 'Jane Smith', price: 400 ,crse:"Build immersive 3D experiences, from games to virtual environments, using real-time rendering and interactive tools."},
+    { id: 3, title: 'After Effects', description: 'Learn the basics of After Effects.', image: 'https://cdn-dkepej.nitrocdn.com/xHPizjaXJNONuYnLnfsGSUCsMnIlzOEq/assets/images/optimized/rev-ef469ea/blog.frame.io/wp-content/uploads/2023/02/insider-tips-after-effects.jpg', author: 'Mike Brown', price: 1000 ,crse:"Create dynamic motion graphics, visual effects, and animations with industry-standard tools for video compositing and post-production."},
+    { id: 4, title: 'Adobe Premiere Pro', description: 'Learn Premiere Pro Video Editing.', image: 'https://img-c.udemycdn.com/course/750x422/4060610_17f8.jpg', author: 'Mike Brown', price: 449,crse:"Edit and produce professional-quality videos with powerful tools for timeline editing, color correction, and audio enhancement." },
   
   ];
 
@@ -150,7 +151,7 @@ const Courses = () => {
             </div>
             <p className="modal-author">Author: {selectedCourse.author}</p>
             <p className="modal-description">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam scelerisque aliquet sapien, ut egestas urna cursus a.
+              {selectedCourse.crse}
             </p>
             <button onClick={() => handleAddToCart(selectedCourse)} className="modal-add-to-cart-btn">
               Add to Cart
