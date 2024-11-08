@@ -12,7 +12,7 @@ const RefundPolicy = () => {
                     We do not provide refunds or accept returns once a purchase is made. Please carefully review your order before completing your transaction.
                 </p>
             </div>
-
+</div>
             
     );
 };
