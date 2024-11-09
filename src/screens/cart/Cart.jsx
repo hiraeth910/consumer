@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import './cart.css';
@@ -12,6 +11,7 @@ const CartPage = () => {
   const userName = useSelector((state) => state.app.name);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+    const token = useSelector((state) => state.app.token);
 
   const handleRemove = () => {
     if (window.confirm('Are you sure you want to remove this item from the cart?')) {
@@ -27,11 +27,15 @@ const CartPage = () => {
   const handlePay = async () => {
     if (isLoggedIn) {
       try {
-        const response = await axios.post("https://server.telemoni.in/api/payment/pay", {
-          amount: cart.price, // Assuming cart has price field
-          userId: "USER_ID", // Replace with actual user ID
-          userPhone: "USER_PHONE" // Replace with actual user phone
-        });
+        const response = await axios.post(
+      "https://server.telemoni.in/api/payment/pay",
+      {},
+      {
+        headers: {
+          Authorization: token,
+        },
+      }
+    );
 
         if (response.data && response.data.url) {
           // Open the URL in a new tab or window
