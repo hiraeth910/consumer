@@ -1,0 +1,11 @@
+[build]
+  publish = "dist"
+  command = "npm run build && cp _redirects dist/"
+
+[functions]
+  directory = "netlify/functions" # Point to the correct directory for functions
+
+[[redirects]]
+  from = "/redirect-url"
+  to = "/.netlify/functions/redirectHandler"
+  status = 200
