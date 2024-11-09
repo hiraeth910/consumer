@@ -28,16 +28,15 @@ const CartPage = () => {
     if (isLoggedIn) {
       try {
         const response = await axios.post("https://server.telemoni.in/api/payment/pay", {
-          amount: 10000, // example: 100.00 INR
+          amount: cart.price, // Assuming cart has price field
           userId: "USER_ID", // Replace with actual user ID
           userPhone: "USER_PHONE" // Replace with actual user phone
         });
 
-       if (response.data && response.data.url) {
-    // Open the URL in a new tab or window
-    window.open(response.data.url, "_blank");
-}
- else if (response.data.success) {
+        if (response.data && response.data.url) {
+          // Open the URL in a new tab or window
+          window.open(response.data.url, "_blank");
+        } else if (response.data.success) {
           alert("Transaction initiated successfully");
         } else {
           alert("Transaction failed");
@@ -60,7 +59,11 @@ const CartPage = () => {
   };
 
   const handleContactUs = () => {
-    navigate('/contactus')
+    navigate('/contactus');
+  };
+
+  const handleRefundPolicy = () => {
+    navigate('/Refund-policy');
   };
 
   return (
@@ -79,7 +82,7 @@ const CartPage = () => {
         </div>
       </header>
       <div className="cart-container">
-        {cart ? (
+        {cart && cart.title ? (
           <div>
             <h3>Item in your cart</h3>
             <div className="cart-content">
@@ -94,6 +97,9 @@ const CartPage = () => {
             <button className="pay-btn" onClick={handlePay}>
               Pay {cart.price}
             </button>
+            <div>
+              <span className="terms-link" onClick={handleRefundPolicy}>* Refund policy</span>
+            </div>
           </div>
         ) : (
           <div>Your cart is empty</div>

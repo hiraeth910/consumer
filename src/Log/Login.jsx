@@ -158,6 +158,10 @@ function LoginPage() {
         navigate('/contactus')
       };
 
+      const handleRefundPolicy = () => {
+        navigate('/Refund-policy');
+      };
+
     return (
             pageLoding? (<p>Loading</p>):(
             <div className="login">
@@ -241,6 +245,7 @@ function LoginPage() {
                 <span className="footer-link" onClick={handleTerms}>Terms and Conditions</span>
                 <span className="footer-link" onClick={handlePrivacyPolicy}>Privacy Policy</span>
                 <span className="footer-link" onClick={handleContactUs}>Contact Us</span>
+                <span className="footer-link" onClick={handleRefundPolicy}>Refund Policy</span>
             </footer>
         </div>
             )
