@@ -7,5 +7,6 @@ export const apiClient = axios.create({
 })
 export const endpoints={
      getUserdetails : '/api/user/consumer/login',
-     getPayemntLink : '/api/payment/pay'
+     getPayemntLink : '/api/payment/pay',
+     productLink : '/api/user/get/productdetails/',
     }

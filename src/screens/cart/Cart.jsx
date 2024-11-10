@@ -1,22 +1,46 @@
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
+import { useEffect, useState } from 'react';
 import './cart.css';
 import { clearCart } from '../../redux/appSlice';
 import logo from '../../assets/app_icon.png';
+import telegram from '../../assets/telegram.jpg';
+import { getProduct } from '../../utils/getapi';
 import { apiClient, endpoints } from '../../utils/endpoints';
 
 const CartPage = () => {
+  const { link } = useParams();
   const cart = useSelector((state) => state.app.cart);
   const isLoggedIn = useSelector((state) => state.app.isLoggedIn);
   const userName = useSelector((state) => state.app.name);
+ // const token = useSelector((state) => state.app.token);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-    const token = useSelector((state) => state.app.token);
+  const [product, setProduct] = useState(null);
+  const token = localStorage.getItem('token');
+
+  useEffect(() => {
+    const fetchProduct = async () => {
+      try {
+        if (link) {
+          const response = await getProduct(link);
+          if (response) {
+            setProduct(response.data);
+          }
+        }
+      } catch (error) {
+        console.error("Error fetching product:", error);
+        alert("Failed to load product data");
+      }
+    };
+
+    fetchProduct();
+  }, [link]);
 
   const handleRemove = () => {
     if (window.confirm('Are you sure you want to remove this item from the cart?')) {
       dispatch(clearCart());
-      navigate(-1); // Navigate back to previous page
+      navigate(-1);
     }
   };
 
@@ -24,18 +48,18 @@ const CartPage = () => {
     navigate('/login');
   };
 
-  const handlePay = async () => {
-    if (isLoggedIn) {
+  const handlePayClick = async () => {
+    if (token !== null) {
       try {
         const response = await apiClient.post(
-      endpoints.getPayemntLink,
-      {},
-      {
-        headers: {
-          Authorization: token,
-        },
-      }
-    );
+          endpoints.getPayemntLink,
+          {'link':link},
+          {
+            headers: {
+              Authorization: token,
+            },
+          }
+        );
 
         if (response.data && response.data.url) {
           // Open the URL in a new tab or window
@@ -50,7 +74,7 @@ const CartPage = () => {
         alert("Error initiating payment");
       }
     } else {
-      navigate('/login'); 
+      navigate('/login');
     }
   };
 
@@ -85,30 +109,56 @@ const CartPage = () => {
           )}
         </div>
       </header>
+
       <div className="cart-container">
-        {cart && cart.title ? (
-          <div>
-            <h3>Item in your cart</h3>
-            <div className="cart-content">
-              <img src={cart.image} className="cart-image" alt="Cart Item" />
-              <h3 className="cart-title">{cart.title}</h3>
-              <p className="cart-description">{cart.description}</p>
-              <p className="cart-author">By {cart.author}</p>
-              <button className="remove-btn" onClick={handleRemove}>
-                Remove
+        {link && product ? (
+          // Display product details if link is provided
+          <div className="product-info-container">
+            <div className="product-info">
+              {product.type === "telegram" && (
+                <img src={telegram} alt="Telegram" className="channel-icon" />
+              )}
+              {/* {product.type === "whatsapp" && (
+                <img src={whatsapp} alt="WhatsApp" className="channel-icon" />
+              )} */}
+              <h1>{product.channel_name}</h1>
+            </div>
+            <div className="product-details">
+              <h1>About Channel:</h1>
+              <p>{product.displaytext}</p>
+              <div className="price-section">
+                <h3>Subscription Plan</h3>
+                <p>{product.ppu} for {product.for}</p>
+              </div>
+              {/* <a href="/terms-and-conditions" className="terms-link">
+                *Terms and conditions
+              </a> */}
+              <button className="pay-btn" onClick={handlePayClick}>
+                Pay {product.ppu}
               </button>
             </div>
-            <button className="pay-btn" onClick={handlePay}>
+          </div>
+        ) : (
+          // Display dummy data if link is null
+          <div className="cart-content">
+            <h3>Item in your cart</h3>
+            <img src={cart.image} className="cart-image" alt="Cart Item" />
+            <h3 className="cart-title">{cart.title}</h3>
+            <p className="cart-description">{cart.description}</p>
+            <p className="cart-author">By {cart.author}</p>
+            <button className="remove-btn" onClick={handleRemove}>
+              Remove
+            </button>
+            <button className="pay-btn" onClick={handlePayClick}>
               Pay {cart.price}
             </button>
             <div>
               <span className="terms-link" onClick={handleRefundPolicy}>* Refund policy</span>
             </div>
           </div>
-        ) : (
-          <div>Your cart is empty</div>
         )}
       </div>
+
       <footer className="footer">
         <span className="footer-link" onClick={handleTerms}>Terms and Conditions</span>
         <span className="footer-link" onClick={handlePrivacyPolicy}>Privacy Policy</span>

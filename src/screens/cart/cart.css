@@ -183,3 +183,165 @@
 
 
 }
+
+/* Base styles */
+.product-page {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: #b4dcfa; /* Light grey background for better contrast */
+  margin: 0;
+}
+
+.container {
+  width: 90%;
+  max-width: 400px;
+  background-color: #ffffff; /* White background for a clean look */
+  border: 1px solid #e0e6eb;
+  border-radius: 12px;
+  padding: 0; /* Removed padding to eliminate gaps between sections */
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+/* Topbar styles */
+.topbar {
+  background-color: #4a90e2; /* Soft blue for a modern look */
+  padding-right: 15px;
+  border-radius: 12px 12px 0 0; /* Rounded top corners */
+  display: flex;
+  justify-content:end;
+  align-items: center;
+  color: #ffffff; /* White text for contrast */
+}
+
+/* Profile section styles */
+.profile-section {
+  position: relative;
+}
+
+.dropdown-menu {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  background-color: #ffffff; /* White background for the dropdown */
+  border: 1px solid #ddd;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  border-radius: 4px;
+  z-index: 10;
+}
+
+.dropdown-menu button {
+  display: block;
+  width: 100%;
+  padding: 10px;
+  background-color: #ffffff; /* White background for dropdown items */
+  border: none;
+  cursor: pointer;
+  text-align: left;
+  font-size: 14px;
+  color: #333; /* Dark grey text for better readability */
+}
+
+.dropdown-menu button:hover {
+  background-color: #f0f4f8; /* Light grey background on hover */
+}
+
+/* Product information styles */
+.product-ino {
+  padding: 20px;
+  background-color: #b4dcfa; /* Light blue for contrast */
+  border-top: 1px solid #4a90e2;
+  border-left: 1px solid #b4dcfa;
+  border-right: 1px solid #b4dcfa;
+  display: flex;
+  
+}
+
+.product-info {
+  padding: 20px;
+  background-color: #f8fafb; /* Very light grey for subtle contrast */
+  border: 1px solid #e0e6eb;
+  border-bottom-left-radius: 12px;
+  border-bottom-right-radius: 12px;
+}
+
+/* Headers */
+.product-ino h1 {
+  color: #333; /* Dark grey for better readability */
+  font-size: 24px;
+}
+
+.product-info h1 {
+  color: #333;
+  font-size: 18px;
+  font-weight:900;
+}
+
+/* Price and terms section */
+.price-section {
+  margin-top: 10px;
+  padding: 10px;
+  border-top: 1px solid #e0e6eb;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: #555; /* Medium grey for subtlety */
+  font-size: 14px;
+}
+.channel-icon {
+  height: 25px;
+  /* Align the icon with the text */
+  border-radius: 25px;
+  margin-top: auto;
+  margin-bottom: auto;
+}
+
+/* Buttons */
+.pay-button {
+  width: 100%;
+  padding: 12px;
+  margin-top: 20px;
+  background-color: #4a90e2; /* Blue button for strong call to action */
+  border: none;
+  border-radius: 6px;
+  color: #ffffff; /* White text for contrast */
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.pay-button:hover{
+  background-color: #357abd; /* Darker blue on hover for emphasis */
+}
+
+.terms-link {
+  font-size: 12px;
+  text-decoration: none;
+  color: #4a90e2; /* Same blue as button for consistency */
+}
+
+.terms-link:hover {
+  text-decoration: underline;
+}
+.login{
+  width: 25%;
+  padding: 12px;
+  margin-top: 15px;
+  margin-bottom: 15px;
+  background-color: #4a90e2; /* Blue button for strong call to action */
+  border: none;
+  border-radius: 6px;
+  color: #ffffff; /* White text for contrast */
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+/* Responsive Design */
+@media only screen and (min-width: 768px) {
+  .container {
+    background-color: #e8f5e9; /* Light green background for web view */
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  }
+}
+

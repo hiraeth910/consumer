@@ -13,3 +13,16 @@ export const getUser=async(phone,name)=>{
         throw(err)
     }
 }
+
+export const getProduct=async(link)=>{
+  try{
+    const response =await apiClient.get(`${endpoints.productLink}${link}`)
+    if (response.status===200 || response.status===201){
+      return response
+    }else{
+      return false
+    }
+  }catch(err){
+      throw(err)
+  }
+}
