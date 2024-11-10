@@ -31,6 +31,7 @@ const App = () => {
           element={isLoggedIn ? <Navigate to="/" /> : <LoginPage />} 
         />
         <Route path="/redirect-url" element={<Succes />} />
+        <Route path="/redirect-url/:transId" element={<Succes />} />
         <Route path='/privacy-policy' element={<Privacy/>}/>
         <Route path='/terms&conditions' element={<TermsAndConditions/>}/>
         <Route path='/Refund-policy' element={<RefundPolicy/>}/>
