@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import './cart.css';
 import { clearCart } from '../../redux/appSlice';
 import logo from '../../assets/app_icon.png';
-import axios from 'axios';
+import { apiClient, endpoints } from '../../utils/endpoints';
 
 const CartPage = () => {
   const cart = useSelector((state) => state.app.cart);
@@ -27,8 +27,8 @@ const CartPage = () => {
   const handlePay = async () => {
     if (isLoggedIn) {
       try {
-        const response = await axios.post(
-      "https://server.telemoni.in/api/payment/pay",
+        const response = await apiClient.post(
+      endpoints.getPayemntLink,
       {},
       {
         headers: {
