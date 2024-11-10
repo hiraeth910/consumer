@@ -26,3 +26,21 @@ export const getProduct=async(link)=>{
       throw(err)
   }
 }
+
+export const getTelegramLink = async (transId) => {
+  const token = localStorage.getItem('token');
+  try {
+    const response = await apiClient.get(`${endpoints.telegramLink}${transId}`, {
+      headers: {
+        authorization: token
+      }
+    });
+    if (response.status === 200 || response.status === 201) {
+      return response.data; // Return the response data if needed
+    } else {
+      return false;
+    }
+  } catch (err) {
+    throw err;
+  }
+};

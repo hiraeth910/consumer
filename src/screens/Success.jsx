@@ -2,30 +2,36 @@ import './success.css';
 import success from '../assets/success.png';
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
+import { getTelegramLink } from '../utils/getapi';
 
 // eslint-disable-next-line react/prop-types
 function Succes() {
   const [responseData, setResponseData] = useState(null);
   const [loading, setLoading] = useState(true);
-  const {transId} = useParams();
+  const { transId } = useParams();
 
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     try {
-  //       const res = await fetch(`https://server.telemoni.in/api/payment/callback?tid=${transId}`);
-  //       const data = await res.text();
-  //       setResponseData(data);
-  //     } catch (error) {
-  //       console.error('Error fetching data:', error);
-  //     } finally {
-  //       setLoading(false);
-  //     }
-  //   };
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await getTelegramLink(transId); // Call the API function
+        const data = response.link; // Access the 'link' property directly
+        setResponseData(data);
+        console.log(data);
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
 
-  //   if (transactionId) {
-  //     fetchData();
-  //   }
-  // }, [transactionId]);
+    fetchData();
+  }, [transId]);
+
+
+  const handleCopy = () => {
+    navigator.clipboard.writeText(responseData);
+    alert('Link copied to clipboard!');
+  };
 
   return (
     <div className="success">
@@ -33,7 +39,23 @@ function Succes() {
         {loading ? (
           <><img src={success} className="successimage" alt="Success" /><h5>{transId}</h5></>
         ) : (
-          <p>{responseData}</p>
+          <div className="linkContainer">
+            <img src={success} className="successimage" alt="Success" />
+            <p className="linkMessage">Here is your link to join Telegram for one time</p>
+            <div className="linkCard">
+              <a
+                href={responseData}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="responseLink"
+              >
+                {responseData}
+              </a>
+              <button onClick={handleCopy} className="copyButton">
+               {/* <FaCopy /> */}
+              </button>
+            </div>
+          </div>
         )}
       </div>
     </div>

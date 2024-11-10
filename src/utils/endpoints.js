@@ -9,4 +9,5 @@ export const endpoints={
      getUserdetails : '/api/user/consumer/login',
      getPayemntLink : '/api/payment/pay',
      productLink : '/api/user/get/productdetails/',
+     telegramLink: '/api/payment/callback/',
     }
