@@ -1,17 +1,23 @@
+*{
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+}
 .login {
     width: 60vw;
     background-color: #e7f3f9;
     position: absolute;
-    height: 100vh;
+    height: 98vh;
     left: 20%;
     right: 20%;
     top: 0;
-    padding: 20px;
+    padding-top: 20px;
     box-sizing: border-box;
     display: flex;
     flex-direction: column;
     align-items: center;
-    overflow-y: auto;
+    /* overflow-y: auto; */
+    /* overflow-x: auto; */
 }
 
 .header {
@@ -70,15 +76,16 @@
 }
 @media (max-width: 768px) {
     .login{
-        width: 100%;
+        width: 100vw;
         left: 0;
+        
     }
     .card {
     border-radius: 8px;
-    width:90%;
-    min-width: 450px;
-    max-width: 80%;
+    width:100vw;
+    min-width: 300px;
     display: flex;
+    text-align: center;
     justify-content: center;
     align-items: center;
 }

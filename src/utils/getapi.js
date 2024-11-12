@@ -1,9 +1,9 @@
 /* eslint-disable no-useless-catch */
 import { apiClient, endpoints } from "./endpoints"
 
-export const getUser=async(phone,name)=>{
+export const getUser=async(phone,name,email)=>{
     try{
-      const response =await apiClient.post(endpoints.getUserdetails,{phone:phone,name:name})
+      const response =await apiClient.post(endpoints.getUserdetails,{phone:phone,name:name,email:email})
       if (response.status===200 || response.status===201){
         return response
       }else{

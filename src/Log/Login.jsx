@@ -10,7 +10,7 @@ import auth from '../firebase/setup.js';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { getUser } from '../utils/getapi.js';
-import {seTName,setToken,setIsLoggedIn} from '../redux/appSlice.js'
+import { seTName, setToken, setIsLoggedIn } from '../redux/appSlice.js'
 
 function LoginPage() {
     const navigate = useNavigate();
@@ -25,6 +25,8 @@ function LoginPage() {
     const [isNew, setIsNew] = useState(false);
     const [pageLoding, setPageLoading] = useState(false);
     const [loading, setLoading] = useState(false);
+    const [email, setEmail] = useState('');
+
 
     // Function to initialize reCAPTCHA
     const initializeRecaptcha = () => {
@@ -52,7 +54,7 @@ function LoginPage() {
     };
 
     const handleLogin = () => {
-        fetchToken(phone,name);
+        fetchToken(phone, name,email);
     };
 
     const sendOtp = async () => {
@@ -91,7 +93,8 @@ function LoginPage() {
                 if (isNewUser) {
                     setIsNew(true);
                 } else {
-                    fetchToken(phone,''); //fetch token
+                    fetchToken(phone, '',email); //fetch token
+                    
                 }
             } else {
                 console.error('No confirmation result to verify OTP.');
@@ -104,18 +107,18 @@ function LoginPage() {
         }
     };
 
-    const fetchToken = async (p, n) => {
+    const fetchToken = async (p, n,e) => {
         setPageLoading(true);
         try {
-            const response = await getUser(p.slice(2), n);
-    
+            const response = await getUser(p.slice(2), n,e);
+
             // Log the full response for debugging
             console.log('API Response:', response);
-    
+
             // Check if response and response.data are defined
             if (response && response.data) {
                 const { token, name } = response.data;
-    
+
                 // Save token and name to local storage
                 localStorage.setItem('token', token);
                 localStorage.setItem('name', name);
@@ -134,7 +137,7 @@ function LoginPage() {
             setPageLoading(false);
         }
     };
-    
+
 
     const handleWrongNumber = () => {
         const confirmChange = window.confirm('Want to change the number?');
@@ -148,107 +151,119 @@ function LoginPage() {
 
     const handleTerms = () => {
         navigate('/terms&conditions');
-      };
-    
-      const handlePrivacyPolicy = () => {
-        navigate('/privacy-policy');
-      };
-    
-      const handleContactUs = () => {
-        navigate('/contactus')
-      };
+    };
 
-      const handleRefundPolicy = () => {
+    const handlePrivacyPolicy = () => {
+        navigate('/privacy-policy');
+    };
+
+    const handleContactUs = () => {
+        navigate('/contactus')
+    };
+
+    const handleRefundPolicy = () => {
         navigate('/Refund-policy');
-      };
+    };
 
     return (
-            pageLoding? (<p>Loading</p>):(
+        pageLoding ? (<p>Loading</p>) : (
             <div className="login">
-            <header className="header">
-                <div className="brand">
-                    <img src={logo} alt="Logo" className="brand-logo" />
-                    <h1 className="brand-name">Telemoni</h1>
-                </div>
-            </header>
-            <div className="contents">
-                <div className="card">
-                    <div className="phone-input">
-                        {isNew ? (
-                            <div>
-                                <TextField
-                                    variant="outlined"
-                                    size="small"
-                                    label="Name"
-                                    value={name}
-                                    onChange={(e) => setName(e.target.value)}
-                                />
-                                <br />
-                                <Button
-                                    variant="contained"
-                                    sx={{ marginTop: '10px' }}
-                                    color="success"
-                                    onClick={handleLogin}
-                                    disabled={loading}
-                                >
-                                    {loading ? <CircularProgress size={24} /> : 'Login'}
-                                </Button>
-                            </div>
-                        ) : (
-                            otpVisible ? (
-                                <div>
-                                    <p>Please login to proceed</p>
-                                    <PhoneInput
-                                        country={'in'}
-                                        value={phone}
-                                        onChange={(value) => setPhone(value)}
-                                    />
-                                    <a href="/privacy-policy">*Privacy policy</a>
-                                    <br />
-                                    <Button
-                                        sx={{ marginTop: '10px' }}
-                                        variant="contained"
-                                        onClick={sendOtp}
-                                        disabled={loading}
-                                    >
-                                        {loading ? <CircularProgress size={24} /> : 'Send OTP'}
-                                    </Button>
-                                    <div id="recaptcha"></div>
-                                </div>
-                            ) : (
+                <header className="header">
+                    <div className="brand">
+                        <img src={logo} alt="Logo" className="brand-logo" />
+                        <h1 className="brand-name">Telemoni</h1>
+                    </div>
+                </header>
+                <div className="contents">
+                    <div className="card">
+                        <div className="phone-input">
+                            {isNew ? (
                                 <div>
                                     <TextField
                                         variant="outlined"
                                         size="small"
-                                        label="OTP"
-                                        value={otp}
-                                        onChange={(e) => setOtp(e.target.value)}
+                                        label="Name"
+                                        value={name}
+                                        onChange={(e) => setName(e.target.value)}
                                     />
-                                    <a href="#" onClick={handleWrongNumber}>Wrong number?</a>
                                     <br />
                                     <Button
                                         variant="contained"
                                         sx={{ marginTop: '10px' }}
                                         color="success"
-                                        onClick={verifyOtp}
+                                        onClick={handleLogin}
                                         disabled={loading}
                                     >
-                                        {loading ? <CircularProgress size={24} /> : 'Verify'}
+                                        {loading ? <CircularProgress size={24} /> : 'Login'}
                                     </Button>
                                 </div>
-                            )
-                        )}
+                            ) : (
+                                otpVisible ? (
+                                    <div>
+                                        <p>Please login to proceed</p>
+                                        <PhoneInput
+                                            country={'in'}
+                                            value={phone}
+                                            onChange={(value) => setPhone(value)}
+                                        />
+                                        <a href="/privacy-policy">*Privacy policy</a>
+                                        <br />
+                                        <Button
+                                            sx={{ marginTop: '10px' }}
+                                            variant="contained"
+                                            onClick={sendOtp}
+                                            disabled={loading}
+                                        >
+                                            {loading ? <CircularProgress size={24} /> : 'Send OTP'}
+                                        </Button>
+                                        <div id="recaptcha"></div>
+                                    </div>
+                                ) : (
+                                    <div>
+                                        <TextField
+                                            variant="outlined"
+                                            size="small"
+                                            label="OTP"
+                                            value={otp}
+                                            onChange={(e) => setOtp(e.target.value)}
+                                        />
+                                        <a href="#" style={{ display: "block" }} onClick={handleWrongNumber}>Wrong number?</a>
+                                        <br />
+
+                                        <TextField
+                                            variant="outlined"
+                                            size="small"
+                                            label="Email (Optional)"
+                                            placeholder="Enter your email to receive a link"
+                                            value={email}
+                                            onChange={(e) => setEmail(e.target.value)}
+                                        />
+                                        <br />
+
+                                        <Button
+                                            variant="contained"
+                                            sx={{ marginTop: '10px' }}
+                                            color="success"
+                                            onClick={verifyOtp}
+                                            disabled={loading}
+                                        >
+                                            {loading ? <CircularProgress size={24} /> : 'Verify'}
+                                        </Button>
+                                    </div>
+
+                                )
+                            )}
+                        </div>
                     </div>
                 </div>
+                <footer className="footer">
+                    <span className="footer-link" onClick={handleTerms}>Terms and Conditions</span>
+                    <span className="footer-link" onClick={handlePrivacyPolicy}>Privacy Policy</span>
+                    <span className="footer-link" onClick={handleContactUs}>Contact Us</span>
+                    <span className="footer-link" onClick={handleRefundPolicy}>Refund Policy</span>
+                </footer>
             </div>
-            <footer className="footer">
-                <span className="footer-link" onClick={handleTerms}>Terms and Conditions</span>
-                <span className="footer-link" onClick={handlePrivacyPolicy}>Privacy Policy</span>
-                <span className="footer-link" onClick={handleContactUs}>Contact Us</span>
-                <span className="footer-link" onClick={handleRefundPolicy}>Refund Policy</span>
-            </footer>
-        </div>
-            )
+        )
     );
 }
 
