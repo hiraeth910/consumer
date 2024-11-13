@@ -24,8 +24,7 @@ const App = () => {
     <Router>
       <Routes>
         <Route path="/" element={<Courses />} />
-        <Route path="/c" element={<CartPage />} />
-        <Route path="/c/:link" element={<CartPage />} />
+        <Route path="/c/:link?" element={<CartPage />} />
         <Route 
           path="/login" 
           element={isLoggedIn ? <Navigate to="/" /> : <LoginPage />} 

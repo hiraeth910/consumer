@@ -12,30 +12,42 @@ const CartPage = () => {
   const { link } = useParams();
   const cart = useSelector((state) => state.app.cart);
   const token = localStorage.getItem('token');
-  const isLoggedIn = token!==null && token!==''
+  const isLoggedIn = token !== null && token !== '';
   const userName = useSelector((state) => state.app.name);
- // const token = useSelector((state) => state.app.token);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [product, setProduct] = useState(null);
+  const [loading,setloading] = useState(false)
+  const fetchProduct = async () => {
+    try {
+      if (link) {
+        setloading(true)
+        const response = await getProduct(link);
+        
+        console.log(response);
+        if (response) {
+          setProduct(response.data);
+        }
+        setloading(false)
+      }
+    } catch (error) {
+      console.error("Error fetching product:", error);
+      alert("Failed to load product data");
+    }
+  };
 
   useEffect(() => {
-    const fetchProduct = async () => {
-      try {
-        if (link) {
-          const response = await getProduct(link);
-          if (response) {
-            setProduct(response.data);
-          }
-        }
-      } catch (error) {
-        console.error("Error fetching product:", error);
-        alert("Failed to load product data");
+    const intervalId = setInterval(() => {
+      if (!product) {
+        fetchProduct();
+      } else {
+        clearInterval(intervalId); // Stop fetching once product is loaded
       }
-    };
+    }, 100); // Run every 5 seconds
 
-    fetchProduct();
-  }, [link]);
+    // Clear interval on component unmount
+    return () => clearInterval(intervalId);
+  }, [link, product]); // Re-run if `link` or `product` changes
 
   const handleRemove = () => {
     if (window.confirm('Are you sure you want to remove this item from the cart?')) {
@@ -53,7 +65,7 @@ const CartPage = () => {
       try {
         const response = await apiClient.post(
           endpoints.getPayemntLink,
-          {'link':link},
+          { link },
           {
             headers: {
               Authorization: token,
@@ -62,7 +74,6 @@ const CartPage = () => {
         );
 
         if (response.data && response.data.url) {
-          // Open the URL in a new tab or window
           window.open(response.data.url, "_blank");
         } else if (response.data.success) {
           alert("Transaction initiated successfully");
@@ -93,7 +104,7 @@ const CartPage = () => {
   const handleRefundPolicy = () => {
     navigate('/Refund-policy');
   };
-
+ 
   return (
     <div className="cart-page">
       <header className="header" style={{ backgroundColor: 'lightSkyBlue' }}>
@@ -109,18 +120,14 @@ const CartPage = () => {
           )}
         </div>
       </header>
-
-      <div className="cart-container">
-        {link!=='' ? (
-          // Display product details if link is provided
+      {loading? <p>...loading</p>:
+      (<div className="cart-container">
+        {link !== '' && product ? (
           <div className="product-info-container">
             <div className="product-info">
               {product.type === "telegram" && (
                 <img src={telegram} alt="Telegram" className="channel-icon" />
               )}
-              {/* {product.type === "whatsapp" && (
-                <img src={whatsapp} alt="WhatsApp" className="channel-icon" />
-              )} */}
               <h1>{product.channel_name}</h1>
             </div>
             <div className="product-details">
@@ -130,16 +137,12 @@ const CartPage = () => {
                 <h3>Subscription Plan</h3>
                 <p>{product.ppu} for {product.for}</p>
               </div>
-              {/* <a href="/terms-and-conditions" className="terms-link">
-                *Terms and conditions
-              </a> */}
               <button className="pay-btn" onClick={handlePayClick}>
                 Pay {product.ppu}
               </button>
             </div>
           </div>
         ) : (
-          // Display dummy data if link is null
           <div className="cart-content">
             <h3>Item in your cart</h3>
             <h3 className="cart-title">{cart.title}</h3>
@@ -156,7 +159,7 @@ const CartPage = () => {
             </div>
           </div>
         )}
-      </div>
+      </div>)}
 
       <footer className="footer">
         <span className="footer-link" onClick={handleTerms}>Terms and Conditions</span>
