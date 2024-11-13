@@ -142,7 +142,6 @@ const CartPage = () => {
           // Display dummy data if link is null
           <div className="cart-content">
             <h3>Item in your cart</h3>
-            <img src={cart.image} className="cart-image" alt="Cart Item" />
             <h3 className="cart-title">{cart.title}</h3>
             <p className="cart-description">{cart.description}</p>
             <p className="cart-author">By {cart.author}</p>
