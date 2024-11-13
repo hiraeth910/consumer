@@ -1,8 +1,7 @@
-import { useDispatch, useSelector } from 'react-redux';
+import {  useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import './cart.css';
-import { clearCart } from '../../redux/appSlice';
 import logo from '../../assets/app_icon.png';
 import telegram from '../../assets/telegram.jpg';
 import { getProduct } from '../../utils/getapi';
@@ -10,11 +9,9 @@ import { apiClient, endpoints } from '../../utils/endpoints';
 
 const CartPage = () => {
   const { link } = useParams();
-  const cart = useSelector((state) => state.app.cart);
   const token = localStorage.getItem('token');
   const isLoggedIn = token !== null && token !== '';
   const userName = useSelector((state) => state.app.name);
-  const dispatch = useDispatch();
   const navigate = useNavigate();
   const [product, setProduct] = useState(null);
   const [loading,setloading] = useState(false)
@@ -49,12 +46,6 @@ const CartPage = () => {
     return () => clearInterval(intervalId);
   }, [link, product]); // Re-run if `link` or `product` changes
 
-  const handleRemove = () => {
-    if (window.confirm('Are you sure you want to remove this item from the cart?')) {
-      dispatch(clearCart());
-      navigate(-1);
-    }
-  };
 
   const handleLogin = () => {
     navigate('/login');
@@ -101,9 +92,7 @@ const CartPage = () => {
     navigate('/contactus');
   };
 
-  const handleRefundPolicy = () => {
-    navigate('/Refund-policy');
-  };
+
  
   return (
     <div className="cart-page">
@@ -144,19 +133,8 @@ const CartPage = () => {
           </div>
         ) : (
           <div className="cart-content">
-            <h3>Item in your cart</h3>
-            <h3 className="cart-title">{cart.title}</h3>
-            <p className="cart-description">{cart.description}</p>
-            <p className="cart-author">By {cart.author}</p>
-            <button className="remove-btn" onClick={handleRemove}>
-              Remove
-            </button>
-            <button className="pay-btn" onClick={handlePayClick}>
-              Pay {cart.price}
-            </button>
-            <div>
-              <span className="terms-link" onClick={handleRefundPolicy}>* Refund policy</span>
-            </div>
+            <h3>...loading</h3>
+            
           </div>
         )}
       </div>)}
