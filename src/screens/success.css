@@ -43,7 +43,6 @@
   margin-bottom: 10px;
   text-align: center;
 }
-
 .linkCard {
   display: flex;
   align-items: center;
@@ -53,6 +52,8 @@
   padding: 10px 15px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   transition: background-color 0.3s ease;
+  overflow: hidden; /* Ensures content stays within card */
+  width: 100%; /* Card takes full width */
 }
 
 .responseLink {
@@ -61,6 +62,10 @@
   font-size: 1.5rem;
   margin-right: 10px;
   transition: color 0.3s ease;
+  white-space: nowrap; /* Prevents wrapping */
+  overflow: hidden; /* Hides overflow */
+  text-overflow: ellipsis; /* Adds ellipsis (...) for overflowed text */
+  max-width: 70%; /* Limits width to prevent overflow into button */
 }
 
 .responseLink:hover {
@@ -77,4 +82,12 @@
 
 .copyButton:hover {
   color: #45a049;
+}
+
+/* For smaller screens */
+@media (max-width: 768px) {
+  .responseLink {
+    font-size: 1rem; /* Adjust font size for smaller screens */
+    max-width: 60%; /* Further limit width to fit mobile screen */
+  }
 }

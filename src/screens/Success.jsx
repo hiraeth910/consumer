@@ -41,7 +41,8 @@ function Succes() {
         ) : (
           <div className="linkContainer">
             <img src={success} className="successimage" alt="Success" />
-            <p className="linkMessage">Here is your link to join Telegram for one time</p>
+            <p className="linkMessage">This is your paid channel link please join and paid updates 👇
+            </p>
             <div className="linkCard">
               <a
                 href={responseData}
