@@ -111,7 +111,7 @@ const CartPage = () => {
       </header>
 
       <div className="cart-container">
-        {link && product ? (
+        {link!=='' ? (
           // Display product details if link is provided
           <div className="product-info-container">
             <div className="product-info">
