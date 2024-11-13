@@ -46,11 +46,7 @@ function LoginPage() {
     };
 
     const navigateToHomeOrCart = () => {
-        if (cart !== null) {
-            navigate('/c');
-        } else {
-            navigate('/');
-        }
+        navigate(-1)
     };
 
     const handleLogin = () => {

@@ -11,13 +11,13 @@ import { apiClient, endpoints } from '../../utils/endpoints';
 const CartPage = () => {
   const { link } = useParams();
   const cart = useSelector((state) => state.app.cart);
-  const isLoggedIn = useSelector((state) => state.app.isLoggedIn);
+  const token = localStorage.getItem('token');
+  const isLoggedIn = token!==null && token!==''
   const userName = useSelector((state) => state.app.name);
  // const token = useSelector((state) => state.app.token);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [product, setProduct] = useState(null);
-  const token = localStorage.getItem('token');
 
   useEffect(() => {
     const fetchProduct = async () => {
