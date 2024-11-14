@@ -41,7 +41,7 @@ function Succes() {
         ) : (
           <div className="linkContainer">
             <img src={success} className="successimage" alt="Success" />
-            <p className="linkMessage">This is your paid channel link please join and paid updates 👇
+            <p className="linkMessage">This is your paid channel link click to join and get paid updates 👇
             </p>
             <div className="linkCard">
               <a
@@ -52,10 +52,10 @@ function Succes() {
               >
                 {responseData}
               </a>
+            </div>
               <button onClick={handleCopy} className="copyButton">
                copy
               </button>
-            </div>
           </div>
         )}
       </div>

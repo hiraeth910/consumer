@@ -58,8 +58,7 @@
 
 .responseLink {
   color: black;
-  text-decoration: none;
-  font-size: 1.5rem;
+  font-size: 1rem;
   margin-right: 10px;
   transition: color 0.3s ease;
   white-space: nowrap; /* Prevents wrapping */
