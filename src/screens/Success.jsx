@@ -50,7 +50,7 @@ function Succes() {
                 rel="noopener noreferrer"
                 className="responseLink"
               >
-                {responseData}
+                click here to join
               </a>
             </div>
               <button onClick={handleCopy} className="copyButton">
