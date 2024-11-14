@@ -62,7 +62,6 @@
   margin-right: 10px;
   transition: color 0.3s ease;
   white-space: nowrap; /* Prevents wrapping */
-  overflow: hidden; /* Hides overflow */
   text-overflow: ellipsis; /* Adds ellipsis (...) for overflowed text */
   max-width: 70%; /* Limits width to prevent overflow into button */
 }
