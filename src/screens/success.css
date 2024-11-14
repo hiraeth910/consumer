@@ -59,9 +59,11 @@
 .responseLink {
   color: black;
   font-size: 1rem;
+  text-decoration: underline;
   margin-right: 10px;
   transition: color 0.3s ease;
   white-space: nowrap; /* Prevents wrapping */
+  overflow:inherit; /* Hides overflow */
   text-overflow: ellipsis; /* Adds ellipsis (...) for overflowed text */
   max-width: 70%; /* Limits width to prevent overflow into button */
 }
