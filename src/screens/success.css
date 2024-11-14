@@ -74,6 +74,7 @@
 .copyButton {
   background-color: transparent;
   border: none;
+  margin: 10 auto;
   cursor: pointer;
   color: #4CAF50;
   font-size: 1.2rem;
