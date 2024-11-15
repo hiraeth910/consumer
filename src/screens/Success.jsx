@@ -43,16 +43,18 @@ function Succes() {
             <img src={success} className="successimage" alt="Success" />
             <p className="linkMessage">This is your paid channel link click to join and get paid updates 👇
             </p>
-            <div className="linkCard">
+       
               <a
                 href={responseData}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="responseLink"
-              >
-                click here to join
+                >
+                <button style={{backgroundColor:'green',padding:'15px',borderRadius:'10px',margin:'0 auto'}}>
+                click to join
+                </button>
               </a>
-            </div>
+           
               <button onClick={handleCopy} className="copyButton">
                copy
               </button>
