@@ -44,3 +44,14 @@ export const getTelegramLink = async (transId) => {
     throw err;
   }
 };
+export const updateDetails = async(name,phone)=>{
+  try{
+    const r = await apiClient.post(endpoints.updateName,{name:name,phone:phone})
+    if(r.status===200){
+      return 'y'
+    }
+    else{return 'x'}
+  }catch(err){
+    throw err
+  }
+}

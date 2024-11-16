@@ -10,4 +10,5 @@ export const endpoints={
      getPayemntLink : '/api/payment/pay',
      productLink : '/api/user/get/productdetails/',
      telegramLink: '/api/payment/callback/',
+     updateName:'/api/user/complete-profile'
     }

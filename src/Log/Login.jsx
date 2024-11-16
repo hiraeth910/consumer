@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 import { Button, TextField, CircularProgress } from '@mui/material';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import PhoneInput from 'react-phone-input-2';
 import 'react-phone-input-2/lib/style.css';
 import logo from '../assets/app_icon.png';
@@ -9,8 +9,9 @@ import { RecaptchaVerifier, signInWithPhoneNumber } from 'firebase/auth';
 import auth from '../firebase/setup.js';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { getUser } from '../utils/getapi.js';
+import { getUser, updateDetails } from '../utils/getapi.js';
 import { seTName, setToken, setIsLoggedIn } from '../redux/appSlice.js'
+import { Authenticate, initOTPless, verifyOTP } from '../utils/otpless.js';
 
 function LoginPage() {
     const navigate = useNavigate();
@@ -29,44 +30,31 @@ function LoginPage() {
 
 
     // Function to initialize reCAPTCHA
-    const initializeRecaptcha = () => {
-        if (!window.recaptchaVerifier) {
-            window.recaptchaVerifier = new RecaptchaVerifier(
-                auth,
-                'recaptcha',
-                {
-                    size: 'invisible',
-                    callback: (response) => {
-                        // reCAPTCHA solved
-                    },
-                }
-            );
-            window.recaptchaVerifier.render(); // Render reCAPTCHA only once
-        }
-    };
+   
+   useEffect(() => initOTPless(handleUserData));
 
+const handleUserData = (otplessUser) => {
+    fetchToken(phone.slice(2))};
     const navigateToHomeOrCart = () => {
         navigate(-1)
     };
 
-    const handleLogin = () => {
-        fetchToken(phone, name,email);
+    const handleLogin = async() => {
+        const r = await updateDetails(name,phone.slice(2))
+        if(r==='y'){
+             localStorage.setItem('name', name);
+                dispatch(seTName(name));
+                dispatch(setIsLoggedIn(true));
+            navigateToHomeOrCart()
+        }
     };
 
     const sendOtp = async () => {
         setLoading(true);
         try {
-            if (!auth) {
-                console.error('Firebase Auth is not initialized.');
-                return;
-            }
-
-            initializeRecaptcha();
-            const appVerifier = window.recaptchaVerifier;
-            const formattedPhone = phone.startsWith('+') ? phone : `+${phone}`;
-            const confirmation = await signInWithPhoneNumber(auth, formattedPhone, appVerifier);
-            console.log('Confirmation result:', confirmation);
-            setConfirmationResult(confirmation);
+            let x = phone.slice(2)
+            console.log(x)
+           await Authenticate({ channel: 'PHONE', phone:x })
             setOtpVisible(false);
         } catch (error) {
             console.error('Error during OTP send:', error);
@@ -79,22 +67,8 @@ function LoginPage() {
     const verifyOtp = async () => {
         setLoading(true);
         try {
-            if (confirmationResult) {
-                const result = await confirmationResult.confirm(otp);
-                const user = result.user;
-
-                const uid = user.uid;
-                const isNewUser = user.metadata.creationTime === user.metadata.lastSignInTime;
-
-                if (isNewUser) {
-                    setIsNew(true);
-                } else {
-                    fetchToken(phone, '',email); //fetch token
-                    
-                }
-            } else {
-                console.error('No confirmation result to verify OTP.');
-            }
+            let x = phone.slice(2)
+            verifyOTP({ channel: "PHONE", otp:otp, phone:x })
         } catch (error) {
             console.error('Error during OTP verification:', error);
             alert('Invalid OTP. Please try again.');
@@ -103,25 +77,31 @@ function LoginPage() {
         }
     };
 
-    const fetchToken = async (p, n,e) => {
+    const fetchToken = async (p) => {
         setPageLoading(true);
         try {
-            const response = await getUser(p.slice(2), n,e);
+            const response = await getUser(p.slice(2));
 
             // Log the full response for debugging
             console.log('API Response:', response);
 
             // Check if response and response.data are defined
             if (response && response.data) {
-                const { token, name } = response.data;
+                const { token, name:peru } = response.data;
 
-                // Save token and name to local storage
                 localStorage.setItem('token', token);
-                localStorage.setItem('name', name);
+                
+                if(peru===null){
+                
+                    setIsNew(true)
+                }
+                else{
+                    localStorage.setItem('name', name);
                 dispatch(setToken(token));
                 dispatch(seTName(name));
                 dispatch(setIsLoggedIn(true));
                 navigateToHomeOrCart();
+                }
             } else {
                 console.error('Unexpected API response structure:', response);
                 alert('Failed to retrieve login information. Please try again.');
@@ -226,14 +206,14 @@ function LoginPage() {
                                         <a href="#" style={{ display: "block" }} onClick={handleWrongNumber}>Wrong number?</a>
                                         <br />
 
-                                        <TextField
+                                        {/* <TextField
                                             variant="outlined"
                                             size="small"
                                             label="Email (Optional)"
                                             placeholder="Enter your email to receive a link"
                                             value={email}
                                             onChange={(e) => setEmail(e.target.value)}
-                                        />
+                                        /> */}
                                         <br />
 
                                         <Button

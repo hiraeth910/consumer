@@ -17,8 +17,7 @@ const ContactUs = () => {
                 <h2>Operational Address:</h2>
                 <p>Kethavaram, 4-49, Jangareddygudem, Andhra Pradesh, PIN: 534312</p>
 
-                <h2>Telephone No:</h2>
-                <p><a href="tel:+91790418317">8790418317</a></p>
+                
 
                 <h2>Email ID:</h2>
                 <p><a href="mailto:gnaneswar96g@gmail.com">gnaneswar96g@gmail.com</a></p>
