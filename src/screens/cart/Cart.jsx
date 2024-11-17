@@ -1,4 +1,4 @@
-import {  useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import './cart.css';
@@ -14,18 +14,20 @@ const CartPage = () => {
   const userName = useSelector((state) => state.app.name);
   const navigate = useNavigate();
   const [product, setProduct] = useState(null);
-  const [loading,setloading] = useState(false)
+  const [loading, setLoading] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [paymentUrl, setPaymentUrl] = useState('');
+
   const fetchProduct = async () => {
     try {
       if (link) {
-        setloading(true)
+        setLoading(true);
         const response = await getProduct(link);
-        
         console.log(response);
         if (response) {
           setProduct(response.data);
         }
-        setloading(false)
+        setLoading(false);
       }
     } catch (error) {
       console.error("Error fetching product:", error);
@@ -40,12 +42,10 @@ const CartPage = () => {
       } else {
         clearInterval(intervalId); // Stop fetching once product is loaded
       }
-    }, 100); // Run every 5 seconds
+    }, 100);
 
-    // Clear interval on component unmount
     return () => clearInterval(intervalId);
-  }, [link, product]); // Re-run if `link` or `product` changes
-
+  }, [link, product]);
 
   const handleLogin = () => {
     navigate('/login');
@@ -65,7 +65,9 @@ const CartPage = () => {
         );
 
         if (response.data && response.data.url) {
-          window.open(response.data.url, "_blank");
+          // Set payment URL and open modal
+          setPaymentUrl(response.data.url);
+          setIsModalOpen(true);
         } else if (response.data.success) {
           alert("Transaction initiated successfully");
         } else {
@@ -80,20 +82,11 @@ const CartPage = () => {
     }
   };
 
-  const handleTerms = () => {
-    navigate('/terms&conditions');
+  const closeModal = () => {
+    setIsModalOpen(false);
+    setPaymentUrl('');
   };
 
-  const handlePrivacyPolicy = () => {
-    navigate('/privacy-policy');
-  };
-
-  const handleContactUs = () => {
-    navigate('/contactus');
-  };
-
-
- 
   return (
     <div className="cart-page">
       <header className="header" style={{ backgroundColor: 'lightSkyBlue' }}>
@@ -109,41 +102,52 @@ const CartPage = () => {
           )}
         </div>
       </header>
-      {loading? <p>...loading</p>:
-      (<div className="cart-container">
-        {link !== '' && product ? (
-          <div className="product-info-container">
-            <div className="product-info">
-              {product.type === "telegram" && (
-                <img src={telegram} alt="Telegram" className="channel-icon" />
-              )}
-              <h1>{product.channel_name}</h1>
-            </div>
-            <div className="product-details">
-              <h1>About Channel:</h1>
-              <p>{product.displaytext}</p>
-              <div className="price-section">
-                <h3>Subscription Plan</h3>
-                <p>{product.ppu} for {product.for}</p>
+
+      {loading ? <p>...loading</p> : (
+        <div className="cart-container">
+          {link !== '' && product ? (
+            <div className="product-info-container">
+              <div className="product-info">
+                {product.type === "telegram" && (
+                  <img src={telegram} alt="Telegram" className="channel-icon" />
+                )}
+                <h1>{product.channel_name}</h1>
               </div>
-              <button className="pay-btn" onClick={handlePayClick}>
-                Pay {product.ppu}
-              </button>
+              <div className="product-details">
+                <h1>About Channel:</h1>
+                <p>{product.displaytext}</p>
+                <div className="price-section">
+                  <h3>Subscription Plan</h3>
+                  <p>{product.ppu} for {product.for}</p>
+                </div>
+                <button className="pay-btn" onClick={handlePayClick}>
+                  Pay {product.ppu}
+                </button>
+              </div>
             </div>
-          </div>
-        ) : (
-          <div className="cart-content">
-            <h3>...loading</h3>
-            
-          </div>
-        )}
-      </div>)}
+          ) : (
+            <div className="cart-content">
+              <h3>...loading</h3>
+            </div>
+          )}
+        </div>
+      )}
 
       <footer className="footer">
-        <span className="footer-link" onClick={handleTerms}>Terms and Conditions</span>
-        <span className="footer-link" onClick={handlePrivacyPolicy}>Privacy Policy</span>
-        <span className="footer-link" onClick={handleContactUs}>Contact Us</span>
+        <span className="footer-link" onClick={() => navigate('/terms&conditions')}>Terms and Conditions</span>
+        <span className="footer-link" onClick={() => navigate('/privacy-policy')}>Privacy Policy</span>
+        <span className="footer-link" onClick={() => navigate('/contactus')}>Contact Us</span>
       </footer>
+
+      {/* Payment Modal */}
+      {isModalOpen && (
+        <div className="modal">
+          <div className="modal-content">
+            <span className="close" onClick={closeModal}>&times;</span>
+            <iframe src={paymentUrl} title="Payment" className="payment-iframe"></iframe>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
