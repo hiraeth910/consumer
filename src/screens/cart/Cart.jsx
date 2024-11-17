@@ -41,7 +41,7 @@ const iframeRef = useRef(null);
       } else {
         clearInterval(intervalId); // Stop fetching once product is loaded
       }
-    }, 100);
+    }, 1000);
 
     return () => clearInterval(intervalId);
   }, [link, product]);
