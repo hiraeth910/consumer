@@ -60,8 +60,7 @@ const iframeRef = useRef(null);
         );
 
         if (response.data && response.data.url) {
-          setPaymentUrl(response.data.url); // Set the payment URL
-          setShowModal(true); // Open the modal
+window.location.replace(response.data.url)          // setShowModal(true); // Open the modal
         } else {
           alert("Transaction initiation failed");
         }
