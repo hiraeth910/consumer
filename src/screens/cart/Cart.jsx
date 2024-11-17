@@ -1,6 +1,6 @@
 import { useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import './cart.css';
 import logo from '../../assets/app_icon.png';
 import telegram from '../../assets/telegram.jpg';
@@ -15,9 +15,8 @@ const CartPage = () => {
   const navigate = useNavigate();
   const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState(false);
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [paymentUrl, setPaymentUrl] = useState('');
-
+ const [showModal, setShowModal] = useState(false);  const [paymentUrl, setPaymentUrl] = useState('');
+const iframeRef = useRef(null);
   const fetchProduct = async () => {
     try {
       if (link) {
@@ -51,42 +50,47 @@ const CartPage = () => {
     navigate('/login');
   };
 
-  const handlePayClick = async () => {
-    if (token !== null) {
+   const handlePayClick = async () => {
+    if (token) {
       try {
         const response = await apiClient.post(
           endpoints.getPayemntLink,
           { link },
-          {
-            headers: {
-              Authorization: token,
-            },
-          }
+          { headers: { Authorization: token } }
         );
 
         if (response.data && response.data.url) {
-          // Set payment URL and open modal
-          setPaymentUrl(response.data.url);
-          setIsModalOpen(true);
-        } else if (response.data.success) {
-          alert("Transaction initiated successfully");
+          setPaymentUrl(response.data.url); // Set the payment URL
+          setShowModal(true); // Open the modal
         } else {
-          alert("Transaction failed");
+          alert("Transaction initiation failed");
         }
       } catch (error) {
-        console.error("Error in payment:", error);
-        alert("Error initiating payment");
+        console.error("Error initiating payment:", error);
+        alert("Error during payment initiation");
       }
     } else {
       navigate('/login');
     }
   };
 
-  const closeModal = () => {
-    setIsModalOpen(false);
-    setPaymentUrl('');
+  const handleCloseModal = () => {
+    setShowModal(false);
+    setPaymentUrl(null);
   };
 
+  const handleIframeLoad = () => {
+    if (paymentUrl && iframeRef.current) {
+      const iframeLocation = iframeRef.current.contentWindow.location.href;
+
+      // Check if the iframe has redirected to the success URL
+      if (iframeLocation.includes('/redirect-url')) {
+        setShowModal(false);
+        setPaymentUrl(null);
+        navigate('/success');
+      }
+    }
+  };
   return (
     <div className="cart-page">
       <header className="header" style={{ backgroundColor: 'lightSkyBlue' }}>
@@ -140,11 +144,19 @@ const CartPage = () => {
       </footer>
 
       {/* Payment Modal */}
-      {isModalOpen && (
-        <div className="modal">
+      {showModal && (
+        <div className="modal-overlay">
           <div className="modal-content">
-            <span className="close" onClick={closeModal}>&times;</span>
-            <iframe src={paymentUrl} title="Payment" className="payment-iframe"></iframe>
+            <iframe
+              src={paymentUrl}
+              onLoad={handleIframeLoad}
+              ref={iframeRef}
+              className="modal-iframe"
+              title="Payment"
+            ></iframe>
+            <button className="close-button" onClick={handleCloseModal}>
+              Close
+            </button>
           </div>
         </div>
       )}
