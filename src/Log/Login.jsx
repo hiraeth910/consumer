@@ -34,7 +34,7 @@ function LoginPage() {
    useEffect(() => initOTPless(handleUserData));
 
 const handleUserData = (otplessUser) => {
-    fetchToken(phone.slice(2))};
+    fetchToken(phone)};
     const navigateToHomeOrCart = () => {
         navigate(-1)
     };
