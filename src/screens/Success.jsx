@@ -1,30 +1,29 @@
-import './success.css';
-import success from '../assets/success.png';
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { getTelegramLink } from '../utils/getapi';
 
 function Succes() {
   const [responseData, setResponseData] = useState(null);
+  const [imageAlt, setImageAlt] = useState('');
+  const [isImage, setIsImage] = useState(false);
   const [loading, setLoading] = useState(true);
-  const [isImage, setIsImage] = useState(false); // Track if the link is an image
   const { transId } = useParams();
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await getTelegramLink(transId);
+        console.log('API Response:', response);
 
-        if (response && response.link) {
-          // Check if it's a base64 image (based on the prefix)
-          if (response.link.startsWith('/9j/')) {
-            setIsImage(true);
-            // Prepend the correct prefix for JPEG
-            setResponseData(`data:image/jpeg;base64,${response.link}`);
-          } else {
-            setIsImage(false);
-            setResponseData(response.link); // Treat as a regular link
-          }
+        if (response?.alt) {
+          // If 'alt' exists, it's an image
+          setIsImage(true);
+          setImageAlt(response.alt);
+          setResponseData(`data:image/jpeg;base64,${response.link}`);
+        } else if (response?.link) {
+          // It's a joining link
+          setIsImage(false);
+          setResponseData(response.link);
         }
       } catch (error) {
         console.error('Error fetching data:', error);
@@ -37,38 +36,37 @@ function Succes() {
   }, [transId]);
 
   const handleCopy = () => {
-    if (responseData) {
-      navigator.clipboard.writeText(responseData);
-      alert('Link copied to clipboard!');
-    }
+    navigator.clipboard.writeText(responseData);
+    alert('Link copied to clipboard!');
   };
 
   return (
     <div className="success">
       <div className="inner">
         {loading ? (
-          <>
-            <img src={success} className="successimage" alt="Success" />
-            <h5>{transId}</h5>
-          </>
+          <div>
+            <p>Loading...</p>
+          </div>
         ) : isImage ? (
-          // Render image for 202 status
-          <div className="imageContainer" style={{ textAlign: 'center' }}>
+          <div className="imageContainer">
             <img
               src={responseData}
-              alt="Generated Image"
+              alt={imageAlt || 'Generated Image'}
               style={{ maxWidth: '100%', height: 'auto', border: '1px solid #ccc' }}
             />
-            <p>Here is your generated image link. You can save or share it!</p>
+            {imageAlt && <p>{imageAlt}</p>}
           </div>
         ) : (
-          // Render joining link for 200 or 201
           <div className="linkContainer">
-            <img src={success} className="successimage" alt="Success" />
             <p className="linkMessage">
               This is your paid channel link. Click to join and get paid updates 👇
             </p>
-            <a href={responseData} target="_blank" rel="noopener noreferrer" className="responseLink">
+            <a
+              href={responseData}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="responseLink"
+            >
               <button
                 style={{
                   backgroundColor: 'green',
