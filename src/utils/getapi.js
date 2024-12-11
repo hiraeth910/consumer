@@ -36,7 +36,7 @@ export const getTelegramLink = async (transId) => {
       },
     });
     if (response.status === 202 || response.status === 200 || response.status === 201) {
-      return response; // Always return the response data
+      return response.data; // Always return the response data
     }
     return false;
   } catch (err) {

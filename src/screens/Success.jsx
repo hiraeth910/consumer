@@ -3,29 +3,25 @@ import success from '../assets/success.png';
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { getTelegramLink } from '../utils/getapi';
+import logo from '../assets/app_icon.png';
 
 function Succes() {
   const [responseData, setResponseData] = useState(null);
+  const [altData, setAltData] = useState(null); // State to store alt data
   const [loading, setLoading] = useState(true);
-  const [isImage, setIsImage] = useState(true); // Track if the link is an image
   const { transId } = useParams();
-  const {ans,setans} = useState('');
+
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await getTelegramLink(transId);
-
-        if (response.status===202) {
-          // Check if it's a base64 image (based on the prefix)
-          if (response.data.link.startsWith('/9j/')) {
-            setIsImage(true);
-            setans(response.data.alt)
-            setResponseData(`data:image/jpeg;base64,${response.data.link}`);
-          } else {
-            setIsImage(false);
-            setLoading(false)
-            setResponseData(response.link); // Treat as a regular link
-          }
+        const response = await getTelegramLink(transId); // Call the API function
+        const { link, alt } = response;
+        console.log(link,alt)
+        if (transId[2] === 'x') {
+          setResponseData(link); // Base64 string for the image
+          setAltData(alt); // Alt text for the image
+        } else {
+          setResponseData(link); // Joining link
         }
       } catch (error) {
         console.error('Error fetching data:', error);
@@ -38,49 +34,53 @@ function Succes() {
   }, [transId]);
 
   const handleCopy = () => {
-    if (responseData) {
-      navigator.clipboard.writeText(responseData);
-      alert('Link copied to clipboard!');
-    }
+    navigator.clipboard.writeText(responseData);
+    alert('Link copied to clipboard!');
   };
 
   return (
     <div className="success">
+      <header className="header" style={{ backgroundColor: 'lightSkyBlue' }}>
+        <div className="brand">
+          <img src={logo} alt="Logo" className="brand-logo" />
+          <h1 className="brand-name">Telemoni</h1>
+        </div>
+       
+      </header>
       <div className="inner">
         {loading ? (
           <>
             <img src={success} className="successimage" alt="Success" />
             <h5>{transId}</h5>
           </>
-        ) : isImage ? (
-          // Render image for 202 status
-          <div className="imageContainer" style={{ textAlign: 'center' }}>
+        ) : transId[2] === 'x' ? (
+          // Render Base64 image and alt text
+          <div className="imageContainer">
             <img
-              src={responseData}
-              alt="Generated Image"
-              style={{ maxWidth: '100%', height: 'auto', border: '1px solid #ccc' }}
+              src={`data:image/jpg;base64,${responseData}`}
+              alt={altData}
+              className="responseImage"
+              style={{ display: 'block', margin: '0 auto', maxWidth: '100%' }}
             />
-            <p>{ans}</p>
+            <p className="altText" style={{ textAlign: 'center', marginTop: '10px' }}>{altData}</p>
           </div>
         ) : (
-          // Render joining link for 200 or 201
+          // Render joining link for other cases
           <div className="linkContainer">
             <img src={success} className="successimage" alt="Success" />
-            <p className="linkMessage">
-              This is your paid channel link. Click to join and get paid updates 👇
-            </p>
-            <a href={responseData} target="_blank" rel="noopener noreferrer" className="responseLink">
-              <button
-                style={{
-                  backgroundColor: 'green',
-                  padding: '15px',
-                  borderRadius: '10px',
-                  margin: '0 auto',
-                }}
-              >
+            <p className="linkMessage">This is your paid channel link click to join and get paid updates 👇</p>
+
+            <a
+              href={responseData}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="responseLink"
+            >
+              <button style={{ backgroundColor: 'green', padding: '15px', borderRadius: '10px', margin: '0 auto' }}>
                 Click to join
               </button>
             </a>
+
             <button onClick={handleCopy} className="copyButton">
               Copy
             </button>
