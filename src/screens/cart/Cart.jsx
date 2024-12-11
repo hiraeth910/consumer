@@ -51,28 +51,34 @@ const iframeRef = useRef(null);
   };
 
    const handlePayClick = async () => {
-    if (token) {
-      try {
-        const response = await apiClient.post(
-          endpoints.getPayemntLink,
-          { link },
-          { headers: { Authorization: token } }
-        );
-        if(response.status===403){     return navigate('/login');
-}
-        if (response.data && response.data.url) {
-window.location.replace(response.data.url)          // setShowModal(true); // Open the modal
-        } else {
-          alert("Transaction initiation failed");
-        }
-      } catch (error) {
-        console.error("Error initiating payment:", error);
-        alert("Error during payment initiation");
-      }
-    } else {
+  if (!token) {
+    navigate('/login');
+    return;
+  }
+
+  try {
+    const response = await apiClient.post(
+      endpoints.getPayemntLink,
+      { link },
+      { headers: { Authorization: token } }
+    );
+
+    if (response.status === 403) {
       navigate('/login');
+      return;
     }
-  };
+
+    if (response.data?.url) {
+      window.location.replace(response.data.url);
+    } else {
+      alert("Transaction initiation failed");
+    }
+  } catch (error) {
+    console.error("Error initiating payment:", error);
+    alert("Error during payment initiation");
+  }
+};
+
 
   const handleCloseModal = () => {
     setShowModal(false);

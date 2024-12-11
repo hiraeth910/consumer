@@ -23,6 +23,7 @@ function Succes() {
             setResponseData(`data:image/jpeg;base64,${response.data.link}`);
           } else {
             setIsImage(false);
+            setLoading(false)
             setResponseData(response.link); // Treat as a regular link
           }
         }
