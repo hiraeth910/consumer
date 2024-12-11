@@ -62,7 +62,7 @@ const iframeRef = useRef(null);
       { link },
       { headers: { Authorization: token } }
     );
-
+    console.log(response)
     if (response.status === 403) {
       navigate('/login');
       return;
