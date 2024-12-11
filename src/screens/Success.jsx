@@ -7,7 +7,7 @@ import { getTelegramLink } from '../utils/getapi';
 function Succes() {
   const [responseData, setResponseData] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [isImage, setIsImage] = useState(false); // Track if the link is an image
+  const [isImage, setIsImage] = useState(true); // Track if the link is an image
   const { transId } = useParams();
   const {ans,setans} = useState('');
   useEffect(() => {

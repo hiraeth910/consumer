@@ -58,7 +58,7 @@ const iframeRef = useRef(null);
           { link },
           { headers: { Authorization: token } }
         );
-        if(response.status===403){      navigate('/login');
+        if(response.status===403){     return navigate('/login');
 }
         if (response.data && response.data.url) {
 window.location.replace(response.data.url)          // setShowModal(true); // Open the modal
