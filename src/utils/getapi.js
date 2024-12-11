@@ -32,18 +32,19 @@ export const getTelegramLink = async (transId) => {
   try {
     const response = await apiClient.get(`${endpoints.telegramLink}${transId}`, {
       headers: {
-        authorization: token
-      }
+        authorization: token,
+      },
     });
-    if (response.status === 200 || response.status === 201) {
-      return response.data; // Return the response data if needed
-    } else {
-      return false;
+    if (response.status === 202 || response.status === 200 || response.status === 201) {
+      return response.data; // Always return the response data
     }
+    return false;
   } catch (err) {
     throw err;
   }
 };
+
+
 export const updateDetails = async(name,phone)=>{
   try{
     const r = await apiClient.post(endpoints.updateName,{name:name,phone:phone})

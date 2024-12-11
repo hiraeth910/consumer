@@ -108,8 +108,8 @@ window.location.replace(response.data.url)          // setShowModal(true); // Op
 
       {loading ? <p>...loading</p> : (
         <div className="cart-container">
-          {link !== '' && product ? (
-            <div className="product-info-container">
+          {link !== '' && product ? (product.displaytext ?
+            (<div className="product-info-container">
               <div className="product-info">
                 {product.type === "telegram" && (
                   <img src={telegram} alt="Telegram" className="channel-icon" />
@@ -117,7 +117,7 @@ window.location.replace(response.data.url)          // setShowModal(true); // Op
                 <h1>{product.channel_name}</h1>
               </div>
               <div className="product-details">
-                <h1>About Channel:</h1>
+                <h2>About Channel:</h2>
                 <p>{product.displaytext}</p>
                 <div className="price-section">
                   <h3>Subscription Plan</h3>
@@ -127,7 +127,11 @@ window.location.replace(response.data.url)          // setShowModal(true); // Op
                   Pay {product.ppu}
                 </button>
               </div>
-            </div>
+            </div>):(<div> 
+              <div><h2>{product.channel_name}</h2></div>
+              <button className="pay-btn" onClick={handlePayClick}>
+                  Pay {product.ppu}
+                </button></div>)
           ) : (
             <div className="cart-content">
               <h3>...loading</h3>

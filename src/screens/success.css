@@ -84,6 +84,18 @@
 .copyButton:hover {
   color: #45a049;
 }
+.imageContainer img {
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  max-width: 100%;
+  height: auto;
+}
+
+.imageContainer p {
+  margin-top: 10px;
+  font-size: 16px;
+  color: #333;
+}
 
 /* For smaller screens */
 @media (max-width: 768px) {
