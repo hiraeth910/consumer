@@ -57,7 +57,7 @@ function Succes() {
           // Render Base64 image and alt text
           <div className="imageContainer">
             <img
-              src={`data:image/jpg;base64,${responseData}`}
+              src={responseData}
               alt={altData}
               className="responseImage"
               style={{ display: 'block', margin: '0 auto', maxWidth: '100%' }}
