@@ -15,12 +15,12 @@ function Succes() {
     const fetchData = async () => {
       try {
         const response = await getTelegramLink(transId); // Call the API function
-        const { link, alt } = response;
-        console.log(link,alt)
         if (transId[2] === 'x') {
+          const { link, alt } = response[0];
           setResponseData(link); // Base64 string for the image
           setAltData(alt); // Alt text for the image
         } else {
+          let link = response
           setResponseData(link); // Joining link
         }
       } catch (error) {

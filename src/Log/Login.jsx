@@ -35,7 +35,8 @@ function LoginPage() {
 
 const handleUserData = (otplessUser) => {
     fetchToken(phone)};
-    const navigateToHomeOrCart = () => {
+    
+const navigateToHomeOrCart = () => {
         navigate(-1)
     };
 
