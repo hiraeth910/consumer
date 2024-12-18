@@ -20,7 +20,7 @@ function Succes() {
           setResponseData(link); // Base64 string for the image
           setAltData(alt); // Alt text for the image
         } else {
-          let link = response
+          let {link} = response
           setResponseData(link); // Joining link
         }
       } catch (error) {
