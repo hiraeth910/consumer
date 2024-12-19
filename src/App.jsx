@@ -13,6 +13,7 @@ import Succes from './screens/Success';
 import Courses from './screens/Home/Course';
 
 import InputScreen from './screens/InputScreen';
+import TransactionExtractor from './screens/TransactionExtractor';
 const App = () => {
   const dispatch = useDispatch();
 
@@ -25,6 +26,8 @@ const App = () => {
   return (
     <Router>
       <Routes>
+                <Route path="/failed" element={<TransactionExtractor />} />
+
         <Route path="/" element={<Courses />} />
         <Route path="/c/:link?" element={<CartPage />} />
         <Route 

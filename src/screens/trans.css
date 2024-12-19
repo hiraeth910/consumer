@@ -1,0 +1,17 @@
+input[type="text"] {
+  width: 23vw; /* 23% of the viewport width for larger screens */
+  max-width: 500px; /* Limit the max width for desktop */
+  min-width: 90vw; /* On mobile, make it 90% of the screen width */
+  padding: 10px; /* Add some padding for better UI */
+  margin: 10px 0;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 16px;
+  box-sizing: border-box;
+}
+@media (max-width: 768px) {
+  input[type="text"] {
+    width: 90vw; /* 90% of the viewport width on mobile */
+    max-width: 100%; /* Ensure it doesn't exceed the screen size */
+  }
+}
