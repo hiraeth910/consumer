@@ -1,16 +1,19 @@
-import  { useState } from "react";
+import { useState } from "react";
 import Tesseract from "tesseract.js";
-import './trans.css'
-import logo from '../assets/app_icon.png'
+import "./trans.css";
+import logo from "../assets/app_icon.png";
+
 const TransactionExtractor = () => {
   const [transactionId, setTransactionId] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [isValid, setIsValid] = useState(false);
+  const [preview, setPreview] = useState(null); // State for image preview
 
   const handleFileUpload = (event) => {
     const file = event.target.files[0];
     if (file) {
+      setPreview(URL.createObjectURL(file)); // Set the preview URL
       setLoading(true);
       setError("");
       Tesseract.recognize(file, "eng", {
@@ -42,10 +45,7 @@ const TransactionExtractor = () => {
     const value = event.target.value;
     setTransactionId(value);
 
-    // Expected length of the transaction ID
     const expectedLength = 16;
-
-    // Validate real-time
     if (!value.startsWith("tms") && !value.startsWith("tmx")) {
       setError("Invalid transaction ID");
       setIsValid(false);
@@ -62,7 +62,7 @@ const TransactionExtractor = () => {
         setIsValid(false);
       }
     } else {
-      setError(""); // Clear error while typing valid characters
+      setError("");
       setIsValid(false);
     }
   };
@@ -88,60 +88,64 @@ const TransactionExtractor = () => {
         </div>
       </header>
       <div className="inner">
-      <h2 style={{ textAlign: "center", marginTop: "20px" }}>
-        Transaction ID Extractor
-      </h2>
+        <h2 style={{ textAlign: "center", marginTop: "20px" }}>
+upload a image or enter the transactionId manually        </h2>
 
-      <div>
-        <label>
-          Upload a screenshot:
-          <input type="file" accept="image/*" onChange={handleFileUpload} />
-        </label>
-      </div>
+        <div>
+          <label className="custom-file-upload">
+            Choose Image
+            <input type="file" accept="image/*" onChange={handleFileUpload} />
+          </label>
+        </div>
 
-      <p style={{ textAlign: "center" }}>OR</p>
+        {preview && (
+          <div className="image-preview">
+            <img src={preview} alt="Preview" className="preview-image" />
+          </div>
+        )}
 
-      <div>
-        <label>
-          Enter transaction ID manually:
-          <input
-            type="text"
-            value={transactionId}
-            onChange={handleInputChange}
-            placeholder="e.g., tms1234567890"
+        <p style={{ textAlign: "center" }}>OR</p>
+
+        <div>
+          <label>
+            Enter transaction ID manually:
+            <input
+              type="text"
+              value={transactionId}
+              onChange={handleInputChange}
+              placeholder="e.g., tms1234567890"
+              style={{
+                padding: "8px",
+                margin: "10px 0",
+                width: "100%",
+                boxSizing: "border-box",
+              }}
+            />
+          </label>
+        </div>
+
+        {error && <p style={{ color: "red", margin: "5px 0" }}>{error}</p>}
+
+        {loading && <p className="loader">Processing image... Please wait.</p>}
+
+        {isValid && !loading && (
+          <button
+            onClick={handleSubmit}
             style={{
-              padding: "8px",
-              margin: "10px 0",
-              width: "100%",
-              boxSizing: "border-box",
+              padding: "10px 20px",
+              background: "green",
+              color: "white",
+              border: "none",
+              cursor: "pointer",
+              marginTop: "10px",
             }}
-          />
-        </label>
+          >
+            Submit
+          </button>
+        )}
       </div>
-
-      {error && (
-        <p style={{ color: "red", margin: "5px 0" }}>{error}</p>
-      )}
-
-      {loading && <p>Processing image... Please wait.</p>}
-
-      {isValid && !loading && (
-        <button
-          onClick={handleSubmit}
-          style={{
-            padding: "10px 20px",
-            background: "green",
-            color: "white",
-            border: "none",
-            cursor: "pointer",
-            marginTop: "10px",
-          }}
-        >
-          Submit
-        </button>
-      )}
     </div>
-  </div>);
+  );
 };
 
 export default TransactionExtractor;
