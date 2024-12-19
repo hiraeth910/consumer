@@ -16,7 +16,7 @@ function Succes() {
       try {
         const response = await getTelegramLink(transId); // Call the API function
         if (transId[2] === 'x') {
-          const { link, alt } = response[0];
+          const { link, alt } = response;
           setResponseData(link); // Base64 string for the image
           setAltData(alt); // Alt text for the image
         } else {
