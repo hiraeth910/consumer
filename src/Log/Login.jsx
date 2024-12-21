@@ -97,9 +97,9 @@ const navigateToHomeOrCart = () => {
                     setIsNew(true)
                 }
                 else{
-                    localStorage.setItem('name', name);
+                    localStorage.setItem('name', peru);
                 dispatch(setToken(token));
-                dispatch(seTName(name));
+                dispatch(seTName(peru));
                 dispatch(setIsLoggedIn(true));
                 navigateToHomeOrCart();
                 }

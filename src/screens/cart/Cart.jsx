@@ -6,6 +6,7 @@ import logo from '../../assets/app_icon.png';
 import telegram from '../../assets/telegram.jpg';
 import { getProduct } from '../../utils/getapi';
 import { apiClient, endpoints } from '../../utils/endpoints';
+import HeaderWithHover from '../HeaderWithHover';
 
 const CartPage = () => {
   const { link } = useParams();
@@ -99,14 +100,16 @@ window.location.replace(response.data.url)          // setShowModal(true); // Op
         </div>
         <div className="login-icon">
           {isLoggedIn ? (
-            <span className="user-name">{userName}</span>
+<HeaderWithHover name={userName} token={token} />
           ) : (
             <button className="login-button" onClick={handleLogin}>Login</button>
           )}
         </div>
       </header>
 
-      {loading ? <p>...loading</p> : (
+      {loading ? <div className="cart-content">
+              <h3>...loading</h3>
+            </div> : (
         <div className="cart-container">
           {link !== '' && product ? (product.displaytext ?
             (<div className="product-info-container">
