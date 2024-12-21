@@ -2,7 +2,6 @@
 import  { useState, useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom'; // For navigation
 import { apiClient, endpoints } from '../utils/endpoints';
-import { Spinner } from 'react-bootstrap';
 
 const HeaderWithHover = ({ name, token }) => {
   const [showHover, setShowHover] = useState(false);
@@ -95,14 +94,13 @@ const HeaderWithHover = ({ name, token }) => {
         >
           {loading ? (
             <div className="loading-spinner d-flex justify-content-center align-items-center">
-              <Spinner animation="border" size="sm" />
               <span className="ms-2">Loading...</span>
             </div>
           ) : purchases.length === 0 ? (
             <p className="no-transactions">No transactions</p>
           ) : (
             <ul className="purchases-list" style={{ listStyle: 'none', margin: 0, padding: 0 }}>
-              {purchases.map((purchase, index) => (
+              {purchases[0].channel_name && purchases.map((purchase, index) => (
                 <li
                   key={index}
                   className="purchase-item"
