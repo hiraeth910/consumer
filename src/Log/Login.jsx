@@ -5,8 +5,6 @@ import PhoneInput from 'react-phone-input-2';
 import 'react-phone-input-2/lib/style.css';
 import logo from '../assets/app_icon.png';
 import './Login.css';
-import { RecaptchaVerifier, signInWithPhoneNumber } from 'firebase/auth';
-import auth from '../firebase/setup.js';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { getUser, updateDetails } from '../utils/getapi.js';
