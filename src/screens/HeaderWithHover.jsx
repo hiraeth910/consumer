@@ -18,10 +18,16 @@ const HeaderWithHover = ({ name, token }) => {
                
                 { headers: { Authorization: token } }
               );
-      if (response.ok) {
-        const data = await response.json();
-        return data || [];
-      }
+    console.log(response)
+              if (response.status === 200 || response.status === 201) {
+        console.log(response.data)
+            setPurchases(response.data);
+            return  ;
+        }
+        else{
+            navigate('/login')
+            
+        }
      
       throw new Error('Failed to fetch purchases');
     } catch (error) {
@@ -34,8 +40,7 @@ const HeaderWithHover = ({ name, token }) => {
     setShowHover(true);
     setLoading(true);
 
-    const purchases = await getPurchases(token);
-    setPurchases(purchases);
+ await getPurchases(token);
 
     setLoading(false);
   };
@@ -101,19 +106,19 @@ const HeaderWithHover = ({ name, token }) => {
           ) : (
             <ul className="purchases-list" style={{ listStyle: 'none', margin: 0, padding: 0 }}>
               {purchases[0].channel_name && purchases.map((purchase, index) => (
-                <li
+                <ul
                   key={index}
                   className="purchase-item"
                   style={{
                     marginBottom: '10px',
                     cursor: 'pointer',
-                    textDecoration: 'underline',
+                    textDecoration: 'none',
                     color: 'blue',
                   }}
-                  onClick={() => navigate(`/redirect-url/${purchase.transactionid}`)}
+                  onClick={() => navigate(`/redirect-url/${purchase.trnsactionid}`)}
                 >
                   {purchase.channel_name}
-                </li>
+                </ul>
               ))}
             </ul>
           )}
