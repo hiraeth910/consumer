@@ -30,6 +30,8 @@ const App = () => {
 
         <Route path="/" element={<Courses />} />
         <Route path="/c/:link?" element={<CartPage />} />
+        <Route path="/cart" element={<CartPage />} />
+        
         <Route 
           path="/login" 
           element={isLoggedIn ? <Navigate to="/" /> : <LoginPage />} 

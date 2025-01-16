@@ -9,6 +9,12 @@ import { apiClient, endpoints } from '../../utils/endpoints';
 import HeaderWithHover from '../HeaderWithHover';
 
 const CartPage = () => {
+  const cart = useSelector((state) => state.app.cart);
+
+  const handlePayment = () => {
+    alert('Proceeding to payment...');
+  };
+
   const { link } = useParams();
   const token = localStorage.getItem('token');
   const isLoggedIn = token !== null && token !== '';
@@ -92,6 +98,7 @@ window.location.replace(response.data.url)          // setShowModal(true); // Op
     }
   };
   return (
+    
     <div className="cart-page">
       <header className="header" style={{ backgroundColor: 'lightSkyBlue' }}>
         <div className="brand">
@@ -106,8 +113,8 @@ window.location.replace(response.data.url)          // setShowModal(true); // Op
           )}
         </div>
       </header>
-
-      {loading ? <div className="cart-content">
+      {link?
+      (loading ? <div className="cart-content">
               <h3>...loading</h3>
             </div> : (
         <div className="cart-container">
@@ -141,7 +148,26 @@ window.location.replace(response.data.url)          // setShowModal(true); // Op
             </div>
           )}
         </div>
+      )): 
+      <div className="shopping-container">
+      {cart ? (
+        <div className="shopping-item">
+          <img src={cart.image} alt={cart.title} className="shopping-image" />
+          <div className="shopping-details">
+            <h2>{cart.title}</h2>
+            <p><strong>Author:</strong> {cart.author}</p>
+            <p>{cart.crse}</p>
+            <p className="shopping-price">Price: <span className="price-value">₹{cart.price}</span></p>
+            <button className="purchase-button" onClick={handlePayment}>Pay</button>
+          </div>
+        </div>
+      ) : (
+        <div className="empty-shopping">
+          <p>Your cart is empty</p>
+          <button className="return-button" onClick={() => navigate('/')}>Go Back</button>
+        </div>
       )}
+    </div>}
 
       <footer className="footer">
         <span className="footer-link" onClick={() => navigate('/terms&conditions')}>Terms and Conditions</span>
